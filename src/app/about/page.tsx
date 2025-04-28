@@ -1,19 +1,18 @@
-import fs from 'fs';
-import path from 'path';
-import matter from 'gray-matter';
-import { remark } from 'remark';
-import html from 'remark-html';
+import type { Metadata } from 'next'
+ 
+export const metadata: Metadata = {
+  title: 'Emily Dela Cruz - About',
+  description: 'Developer exploring opportunities at the intersection of technology, connection, and social change.',
+}
 
-export default async function AboutPage() {
-  const filePath = path.join(process.cwd(), 'content/pages/about.md');
-  const fileContent = fs.readFileSync(filePath, 'utf8');
-  const { content } = matter(fileContent);
-  const processed = await remark().use(html).process(content);
-  const contentHtml = processed.toString();
 
+export default function About() {
   return (
-    <main className="p-8">
-      <div dangerouslySetInnerHTML={{ __html: contentHtml }} />
+    <main className="fade-in">
+      <h1 className="text-3xl font-bold mb-4">About</h1>
+      <p className="text-base leading-relaxed">
+        /about
+      </p>
     </main>
   );
 }
