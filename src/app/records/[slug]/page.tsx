@@ -1,20 +1,50 @@
-// src/app/records/[slug]/page.tsx
-import { getRecordBySlug } from '../../../lib/markdown';
+import { notFound } from 'next/navigation';
+import { getAllRecords, getRecordBySlug, Record as RecordType} from '@/lib/records';
 
 type Props = {
-  params: { slug: string };
+  params: {
+    slug: string;
+  };
 };
 
-export default async function RecordPage({ params }: Props) {
-  const { slug } = await params;  // Destructure the slug from params
+export async function generateStaticParams() {
+  const records = getAllRecords();
 
-  // Fetch the record data asynchronously
-  const record = await getRecordBySlug(slug);
+  return records.map((record) => ({
+    slug: record.slug,
+  }));
+}
+
+export default async function RecordPage({ params }: Props) {
+  const { slug } = await Promise.resolve(params);
+  const record: RecordType | undefined = getRecordBySlug(slug);
+
+  if (!record) notFound();
+
+  const { type, title } = record.metadata;
 
   return (
-    <div>
-      <h1>{record.title}</h1>
-      <div dangerouslySetInnerHTML={{ __html: record.contentHtml }} />
-    </div>
+    <article>
+      <h1>{title}</h1>
+      <p>Type: {type}</p>
+
+      {type === 'book' && record.csvData && (
+        <section>
+          <h2>Book Info</h2>
+          <p><strong>Author:</strong> {record.csvData.read_authors}</p>
+          <p><strong>Year:</strong> {record.csvData.read_year}</p>
+        </section>
+      )}
+
+      {type === 'film' && (
+        <section>
+          <h2>Film Details</h2>
+          <p>(You could add logic to fetch or display film data here)</p>
+        </section>
+      )}
+
+      {/* Markdown content */}
+      <div dangerouslySetInnerHTML={{ __html: record.content }} />
+    </article>
   );
 }

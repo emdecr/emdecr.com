@@ -5,7 +5,7 @@ export default function RecordsPage() {
   const records = getAllRecords();
 
   return (
-    <main className="p-8">
+    <main>
       <h1 className="text-2xl font-semibold mb-4">Records</h1>
       <ul className="space-y-2">
         {records.map((record) => (

@@ -22,7 +22,7 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <div className="px-4 sm:px-8 max-w-2xl mx-auto">
+        <div className="px-4 w-full mx-auto lg:max-w-screen-lg">
           <GlobalNav />
           {children}
         </div>
