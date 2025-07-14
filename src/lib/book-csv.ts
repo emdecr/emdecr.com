@@ -16,6 +16,7 @@ export interface BookCsvRow {
   read_link: string;
   read_isbn: string;
   read_publisher: string;
+  read_image: string;
 }
 
 const csvPath = path.join(process.cwd(), 'data/books.csv');
@@ -41,4 +42,10 @@ export function getCsvData(): BookCsvRow[] {
 export function getBookCsvRowByRecordId(id: string): BookCsvRow | undefined {
     // Normalize both values as strings
     return getCsvData().find((row) => String(row.record_id) === String(id));
+}
+
+// Example lookup by book_id (assuming frontmatter has book_id: "xyz")
+export function getBookCsvRowByBookId(id: string): BookCsvRow | undefined {
+    // Normalize both values as strings
+    return getCsvData().find((row) => String(row.book_id) === String(id));
 }
