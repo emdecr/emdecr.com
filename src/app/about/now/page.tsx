@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import { getBookCsvRowByBookId } from '@/lib/book-csv';
 import type { BookCsvRow } from '@/lib/book-csv';
 import { currentBookId } from '@/lib/config';
+import { getLatestGitHubActivity } from '@/lib/github';
 
 export const metadata: Metadata = {
     title: 'Emily Dela Cruz - About',
@@ -11,12 +12,25 @@ export const metadata: Metadata = {
 
 export default async function NowPage() {
     const book: BookCsvRow | undefined = getBookCsvRowByBookId(currentBookId);
+    const activity = await getLatestGitHubActivity();
 
     return (
         <main className="prose">
             <h1>Now</h1>
 
             <p>This is what I&lsquo;m up to lately.</p>
+
+            <h2>Latest GitHub Activity</h2>
+            <ul>
+                {activity.map((item, index) => (
+                    <li key={index}>
+                        <a href={item.link} target="_blank" rel="noopener noreferrer">
+                            {item.title}
+                        </a>{' '}
+                        <small>{new Date(item.date).toLocaleDateString()}</small>
+                    </li>
+                ))}
+            </ul>
 
             {book && (
                 <section>
