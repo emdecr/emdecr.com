@@ -4,6 +4,7 @@ import path from "path";
 import { parse } from "csv-parse/sync";
 
 export type Bookmark = {
+  bookmark_id: string;
   bookmark_date: string;
   bookmark_title: string;
   bookmark_link: string;
