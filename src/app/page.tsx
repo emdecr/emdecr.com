@@ -9,8 +9,8 @@ export const metadata: Metadata = {
 export default function Home() {
   return (
     <main className="fade-in">
-      <h1 className="text-xl font-bold mb-4">Hi, I&apos;m Emily Dela Cruz 👋</h1>
-      <p className="text-base leading-relaxed mb-4">A developer exploring opportunities at the intersection of technology, connection, and social change.</p>
+      <h1 className="lg:text-4xl font-bold mb-4">Emily Dela Cruz</h1>
+      <p className="text-base leading-relaxed mb-4">I&lsquo;m a developer exploring opportunities at the intersection of technology, connection, and social change.</p>
     </main>
   );
 }

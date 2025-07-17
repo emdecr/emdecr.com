@@ -19,15 +19,14 @@ export default async function NowPage() {
     const track = getLatestTrack();
 
     return (
-        <main className="prose">
+        <main>
             <h1>Now</h1>
 
             <p>This is what I&lsquo;m up to lately.</p>
 
-            <h2>Latest GitHub Activity</h2>
-
             {activity ? (
-                <div>
+                <section>
+                    <h2>GitHub Activity</h2>
                     <p>
                         <a href={activity.link} target="_blank" rel="noopener noreferrer">
                             {activity.title}
@@ -39,15 +38,15 @@ export default async function NowPage() {
                         </p>
                     )}
                     <p><small>{new Date(activity.date).toLocaleDateString()}</small></p>
-                </div>
+                </section>
             ) : (
                 <p>No recent activity found.</p>
             )}
 
             {track && (
                 <section>
-                    <h2>🎧 Currently Listening</h2>
-                    <p><strong>{track.title}</strong> by {track.artist}</p>
+                    <h2>Currently Listening</h2>
+                    <p>{track.title} by {track.artist}</p>
                     <p>Album: {track.album}</p>
                     {track.link && (
                         <p><a href={track.link} target="_blank" rel="noopener noreferrer">Listen</a></p>
@@ -67,7 +66,7 @@ export default async function NowPage() {
             {book && (
                 <section>
                     <h2>Currently Reading</h2>
-                    <p><strong>{book.read_title}</strong></p>
+                    <p>{book.read_title}</p>
                     <p>
                         <strong>Author(s):</strong>{' '}
                         {book.read_authors
