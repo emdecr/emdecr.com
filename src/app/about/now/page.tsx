@@ -19,7 +19,7 @@ export default async function NowPage() {
     const track = getLatestTrack();
 
     return (
-        <main>
+        <main className="fade-in">
             <h1>Now</h1>
 
             <p>This is what I&lsquo;m up to lately.</p>
@@ -74,8 +74,6 @@ export default async function NowPage() {
                             .map((name) => name.trim())
                             .join(', ')}
                     </p>
-
-                    <p><strong>Started</strong>: {book.read_date}</p>
                     <p><strong>Publisher</strong>: {book.read_publisher}</p>
                 </section>
             )}

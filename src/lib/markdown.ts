@@ -52,3 +52,17 @@ export async function getRecordBySlug(slug: string): Promise<RecordData> {
     ...(data as Omit<RecordData, 'slug' | 'contentHtml'>),
   };
 }
+
+export async function getMarkdownContent(fileName: string) {
+  const filePath = path.join(process.cwd(), 'content/pages', fileName);
+  const fileContents = fs.readFileSync(filePath, 'utf8');
+
+  const { content, data } = matter(fileContents);
+  const processedContent = await remark().use(html).process(content);
+  const contentHtml = processedContent.toString();
+
+  return {
+    contentHtml,
+    data,
+  };
+}

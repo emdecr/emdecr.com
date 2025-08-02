@@ -3,7 +3,7 @@ import Link from 'next/link';
 
 const GlobalNav = () => {
   return (
-    <nav className="nav">
+    <nav className="nav font-mono">
       <ul className="flex flex-wrap gap-6 text-sm pt-8">
         <li>
           <Link href="/" className="hover:underline">
@@ -11,7 +11,7 @@ const GlobalNav = () => {
           </Link>
         </li>
         <li>
-          <Link href="/about" className="hover:underline">
+          <Link href="/about" className="hover:underline ">
             About
           </Link>
         </li>
