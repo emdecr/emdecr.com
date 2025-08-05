@@ -70,6 +70,15 @@ export function getAllRecords(): Record[] {
   });
 }
 
+export async function convertMarkdown(rawContent: string) {
+  const processedContent = await remark().use(html).process(rawContent);
+  const contentHtml = processedContent.toString();
+
+  return {
+    contentHtml
+  };
+}
+
 /**
  * Get a single record by its slug from frontmatter
  */

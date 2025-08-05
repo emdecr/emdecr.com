@@ -1,5 +1,5 @@
 import { notFound } from 'next/navigation';
-import { getAllRecords, getRecordBySlug, Record as RecordType} from '@/lib/records';
+import { getAllRecords, getRecordBySlug, convertMarkdown, Record as RecordType} from '@/lib/records';
 
 type Props = {
   params: {
@@ -21,10 +21,11 @@ export default async function RecordPage({ params }: Props) {
 
   if (!record) notFound();
 
+  const { contentHtml } = await convertMarkdown(record.content);
   const { type, title } = record.metadata;
 
   return (
-    <article>
+    <article className="prose">
       <h1>{title}</h1>
       <p>Type: {type}</p>
 
@@ -44,7 +45,7 @@ export default async function RecordPage({ params }: Props) {
       )}
 
       {/* Markdown content */}
-      <div dangerouslySetInnerHTML={{ __html: record.content }} />
+      <div dangerouslySetInnerHTML={{ __html: contentHtml }} />
     </article>
   );
 }
