@@ -1,0 +1,1 @@
+The [concept of a /now page](https://nownownow.com/about), created by Derek Sivers, is to share what you’re focused on at this point in your life.

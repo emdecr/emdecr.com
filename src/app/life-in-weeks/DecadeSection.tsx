@@ -1,4 +1,4 @@
-import WeekBlock from './WeekBlock';
+import WeekBlock from '../components/WeekBlock';
 
 type DecadeProps = {
   decade: {

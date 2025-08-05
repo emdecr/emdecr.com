@@ -12,8 +12,9 @@ export type Bookmark = {
   bookmark_note: string;
 };
 
+const filePath = path.join(process.cwd(), 'data/bookmarks.csv');
+
 export async function loadBookmarks(): Promise<Bookmark[]> {
-  const filePath = path.join(process.cwd(), "data/bookmarks.csv");
   const file = await fs.readFile(filePath, "utf8");
 
   const records = parse(file, {
@@ -23,4 +24,17 @@ export async function loadBookmarks(): Promise<Bookmark[]> {
   });
 
   return records as Bookmark[];
+}
+
+// Get the latest bookmark by date
+export async function getLatestBookmark(): Promise<Bookmark | null> {
+  const bookmarks = await loadBookmarks();
+
+  if (bookmarks.length === 0) return null;
+
+  const sorted = bookmarks.sort(
+    (a, b) => new Date(b.bookmark_date).getTime() - new Date(a.bookmark_date).getTime()
+  );
+
+  return sorted[0];
 }

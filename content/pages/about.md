@@ -6,4 +6,4 @@ In university, I double-majored in psychology and English – I'm always thinkin
 
 I take on freelance projects when I can. Here's what I think about when looking for people to work alongside. Sound like you or have questions? Let's chat.
 
-Want to know what I'm focused on now? Check [here](/about/now).
+Want to know what I'm focused on now? Check [here](/now).
