@@ -45,8 +45,13 @@ export default async function NowPage() {
                             <p className="text-lg font-bold">{track.title} by {track.artist}</p>
                             <p><strong>Release</strong>: {track.album}</p>
                             {track.link && (
-                                <p><a href={track.link} target="_blank" rel="noopener noreferrer" className="
-                                underline">Listen</a></p>
+                                <p>
+                                    <Link
+                                    href={track.link}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="underline link--external">Listen</Link>
+                                </p>
                             )}
                         </section>
                     )}
@@ -86,7 +91,7 @@ export default async function NowPage() {
                                 href={latestBookmark.bookmark_link}
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                className="underline"
+                                className="underline link--external"
                             >
                                 {latestBookmark.bookmark_title}
                             </Link>

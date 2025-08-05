@@ -1,7 +1,14 @@
+import type { Metadata } from 'next'
 import Link from 'next/link';
 import { getAllRecords } from '@/lib/markdown';
 
-export default function RecordsPage() {
+export const metadata: Metadata = {
+  title: 'Emily Dela Cruz - Records',
+  description: 'A collection of thoughts.',
+}
+
+
+export default async function RecordsPage() {
   const records = getAllRecords();
 
   return (

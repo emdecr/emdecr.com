@@ -3,24 +3,24 @@
 
 /* Fonts */
 @font-face {
-  font-family: 'Ronzino';
-  src: url('/fonts/clt-ronzino/Ronzino-Regular.woff2') format('woff2');
+  font-family: "Ronzino";
+  src: url("/fonts/clt-ronzino/Ronzino-Regular.woff2") format("woff2");
   font-weight: 400;
   font-style: normal;
   font-display: swap;
 }
 
 @font-face {
-  font-family: 'Ronzino';
-  src: url('/fonts/clt-ronzino/Ronzino-Medium.woff2') format('woff2');
+  font-family: "Ronzino";
+  src: url("/fonts/clt-ronzino/Ronzino-Medium.woff2") format("woff2");
   font-weight: 600;
   font-style: normal;
   font-display: swap;
 }
 
 @font-face {
-  font-family: 'Ronzino';
-  src: url('/fonts/clt-ronzino/Ronzino-Bold.woff2') format('woff2');
+  font-family: "Ronzino";
+  src: url("/fonts/clt-ronzino/Ronzino-Bold.woff2") format("woff2");
   font-weight: 700;
   font-style: normal;
   font-display: swap;
@@ -88,4 +88,25 @@ body {
 
 .fade-in {
   animation: fadeIn 0.8s ease-out;
+}
+
+/* External Link */
+.link--external:after {
+  background: 0 0;
+  background-image: url(/assets/launch.svg);
+  mask-image: url(/assets/launch.svg), linear-gradient(transparent, transparent);
+  mask-position: center center;
+  mask-repeat: no-repeat;
+  mask-size: 1.75ex 1.75ex;
+  content: "";
+  display: inline;
+  margin-top: 0.7ex;
+  margin-left: 2px;
+  padding-left: 1.75ex;
+  vertical-align: middle;
+  background-color: black;
+}
+
+.link--external:visited:after {
+  background-color: purple;
 }
