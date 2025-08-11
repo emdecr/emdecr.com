@@ -2,7 +2,10 @@ import fs from 'fs';
 import path from 'path';
 import matter from 'gray-matter';
 import { remark } from 'remark';
-import html from 'remark-html';
+import remarkParse from 'remark-parse';
+import remarkRehype from 'remark-rehype';
+import rehypeRaw from 'rehype-raw';
+import rehypeStringify from 'rehype-stringify';
 
 const recordsDirectory = path.join(process.cwd(), 'content/records');
 
@@ -71,11 +74,17 @@ export function getAllRecords(): Record[] {
 }
 
 export async function convertMarkdown(rawContent: string) {
-  const processedContent = await remark().use(html).process(rawContent);
-  const contentHtml = processedContent.toString();
+  const processedContent = await remark()
+    .use(remarkParse) // Parse markdown into mdast
+    .use(remarkRehype, { allowDangerousHtml: true }) // Convert mdast -> hast (HTML AST)
+    .use(rehypeRaw) // Parse any raw HTML in the markdown
+    // .use(rehypeSanitize) // Optional: sanitize HTML for safety
+    // .use(rehypeHighlight) // Optional: syntax highlighting
+    .use(rehypeStringify) // Turn hast back into HTML string
+    .process(rawContent);
 
   return {
-    contentHtml
+    contentHtml: processedContent.toString()
   };
 }
 
