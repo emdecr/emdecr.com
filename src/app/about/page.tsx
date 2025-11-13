@@ -11,6 +11,7 @@ export const metadata: Metadata = {
 
 export default async function About() {
   const { contentHtml } = await getMarkdownContent('about.md');
+
   return (
     <main className="fade-in">
       <h1 className="text-3xl font-bold mb-4">About</h1>
@@ -19,15 +20,15 @@ export default async function About() {
           <article className="prose" dangerouslySetInnerHTML={{ __html: contentHtml }}></article>
         </div>
         <figure className="col-span-2">
-          <Image 
-            src="/images/blind-contour-miles.jpg" 
+          <Image
+            src="/images/blind-contour-miles.jpg"
             alt="Blind contour portrait"
             width="400"
             height="1000"
           />
-          <figcaption className="text-xs font-mono mt-4 text-slate-500">Blind contour portraits of myself made by my nephew (8). I think it&apos;s a striking resemblance.</figcaption>
+          <figcaption className="text-xs font-mono mt-4 text-slate-500">Blind contour portraits of myself made by my nephew (9). I think it&apos;s a striking resemblance.</figcaption>
         </figure>
-      </div>  
+      </div>
     </main>
   );
 }
