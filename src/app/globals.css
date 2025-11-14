@@ -38,7 +38,7 @@
 :root {
   --background: #ffffff;
   --foreground: #171717;
-  --accent-grey: #efefef;
+  --accent-grey: #f4f4f4;
 }
 
 /* Dark mode colors */
@@ -62,6 +62,14 @@ body {
 
 .serif {
   font-family: "Sneaky Times", serif;
+}
+
+/* Main */
+
+@media (min-width: 1200px) {
+  main {
+    min-height: 80vh;
+  }
 }
 
 /* Navigation Styles */
@@ -124,3 +132,21 @@ body {
 .link--external:visited:after {
   background-color: purple;
 }
+
+/* Records */
+
+.records ul {
+  margin: 0;
+  padding: 0;
+  list-style-type: none;
+}
+
+.records ul li {
+  padding: 0;
+}
+
+.records ul p {
+  margin-top: 0;
+}
+
+/* Footer */

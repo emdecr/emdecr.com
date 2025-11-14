@@ -15,11 +15,10 @@ export async function generateMetadata(
   const record = getRecordBySlug(slug);
   if (!record) return { title: 'Not Found' };
 
-  const { title, summary } = record.metadata;
+  const { title } = record.metadata;
 
   return {
-    title,
-    summary,
+    title
   };
 }
 

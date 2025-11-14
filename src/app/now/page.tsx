@@ -37,7 +37,7 @@ export default async function NowPage() {
             <h1 className="text-3xl font-bold mb-4">Now</h1>
 
             <div className="lg:grid gap-12 grid-cols-5">
-                <article className="prose col-span-3" dangerouslySetInnerHTML={{ __html: contentHtml }}></article>
+                <article className="prose col-span-3 text-lg" dangerouslySetInnerHTML={{ __html: contentHtml }}></article>
                 <aside className="col-span-2">
                     {track && (
                         <section className="mb-6">

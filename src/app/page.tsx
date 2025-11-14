@@ -11,13 +11,15 @@ export default function Home() {
     <main className="fade-in prose">
       <h1 className="text-3xl lg:text-4xl font-bold mb-4">Emily Dela Cruz</h1>
       
-      <p className="text-xl leading-relaxed mb-4">I&rsquo;m a developer exploring opportunities at the intersection of technology and social change. This site is where I share what I&rsquo;m working on and thinking about.</p>
+      <p className="text-xl leading-relaxed mb-4">I&rsquo;m a developer interested in the relationship between tech and social impact. This site is where I share what I&rsquo;m building and thinking about.</p>
       
-      <p className="text-xl leading-relaxed mb-4">I&rsquo;ve spent the last decade working across the full stack of development...and then some. Leading websites redesigns, delving into UXR, marketing operations, program management, etc.</p> 
+      <p className="text-xl leading-relaxed mb-4">Over the past decade I&rsquo;ve worked across the stack &mdash; web dev, UX research, marketing ops, program management. If it sounds like I do a bit of everything, it&rsquo;s because curiosity and experience have opened those doors. I like solving practical problems, understanding systems, and helping teams work better.</p> 
 
-      <p className="text-xl leading-relaxed mb-4">If it sounds like I do a bit of everything, it&rsquo;s because my experience and curiosity has given me the opportunity to do so. I simply like solving practical problems, understanding how systems fit together, and helping teams work more smoothly.</p>
-      
-      <p className="text-xl leading-relaxed mb-4">Right now, I&rsquo;m exploring what&rsquo;s next in my career. If you want someone who&rsquo;s thoughtful and gets things done, let&rsquo;s chat.</p>
+      <p className="text-xl leading-relaxed mb-4">I&rsquo;m exploring what&rsquo;s next. If you want someone thoughtful who gets things done, <a href="mailto:hello@emilydelacruz.com">let&rsquo;s talk</a>.</p>
+
+      <hr></hr>
+
+      <p className="text-xl leading-relaxed mb-4">This site&rsquo;s going through a makeover + content overhaul. Stay tuned.</p>
     </main>
   );
 }
