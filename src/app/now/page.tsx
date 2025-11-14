@@ -23,6 +23,15 @@ export default async function NowPage() {
     const track = getLatestTrack();
     const { contentHtml } = await getMarkdownContent('now.md');
 
+    const formattedBookmarkDate = latestBookmark
+        ? new Date(latestBookmark.bookmark_date).toISOString().split('T')[0]
+        : null;
+
+    const formattedActivityDate = activity
+        ? new Date(activity.date).toISOString().split('T')[0]
+        : null;
+
+
     return (
         <main className="fade-in">
             <h1 className="text-3xl font-bold mb-4">Now</h1>
@@ -85,7 +94,7 @@ export default async function NowPage() {
                         <section className="mb-6">
                             <h2 className="text-2xl font-bold mb-2"> Bookmarked</h2>
                             <p className="text-sm text-gray-500">
-                                {new Date(latestBookmark.bookmark_date).toLocaleDateString()}
+                                {formattedBookmarkDate}
                             </p>
                             <Link
                                 href={latestBookmark.bookmark_link}
@@ -101,9 +110,9 @@ export default async function NowPage() {
                     {activity ? (
                         <section className="mb-6">
                             <h2 className="text-2xl font-bold mb-2">GitHub Activity</h2>
-                            <p className="text-sm text-gray-500">{new Date(activity.date).toLocaleDateString()}</p>
+                            <p className="text-sm text-gray-500">{formattedActivityDate}</p>
                             <p>
-                                <a href={activity.link} target="_blank" rel="noopener noreferrer">
+                                <a href={activity.link} target="_blank" rel="noopener noreferrer" className="underline link--external">
                                     {activity.title}
                                 </a>
                             </p>

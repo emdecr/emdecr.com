@@ -2,9 +2,9 @@ import { notFound } from 'next/navigation';
 import { getAllRecords, getRecordBySlug, convertMarkdown, Record as RecordType} from '@/lib/records';
 
 type Props = {
-  params: {
+  params: Promise<{
     slug: string;
-  };
+  }>;
 };
 
 export async function generateStaticParams() {
@@ -16,7 +16,7 @@ export async function generateStaticParams() {
 }
 
 export default async function RecordPage({ params }: Props) {
-  const { slug } = await Promise.resolve(params);
+  const { slug } = await params;
   const record: RecordType | undefined = getRecordBySlug(slug);
 
   if (!record) notFound();
@@ -28,14 +28,14 @@ export default async function RecordPage({ params }: Props) {
     <article className="prose">
       <h1>{title}</h1>
       <p>Type: {type}</p>
-
+{/* 
       {type === 'book' && record.csvData && (
         <section>
           <h2>Book Info</h2>
           <p><strong>Author:</strong> {record.csvData.read_authors}</p>
           <p><strong>Year:</strong> {record.csvData.read_year}</p>
         </section>
-      )}
+      )} */}
 
       {type === 'film' && (
         <section>

@@ -15,7 +15,7 @@ export interface RecordMetadata {
   slug: string;
   type: 'book' | 'film' | 'article';
   record_id?: string;
-  [key: string]: any; // Optional: Extend as needed (e.g. author, date, etc.)
+  [key: string]: unknown; // Optional: Extend as needed (e.g. author, date, etc.)
 }
 
 // The full structure returned by getAllRecords / getRecordBySlug
@@ -24,7 +24,7 @@ export interface Record {
   content: string;
   metadata: RecordMetadata;
   filePath: string;
-  csvData?: any; // You can use generics if needed
+  csvData?: unknown;
 }
 
 /**
@@ -73,7 +73,7 @@ export function getAllRecords(): Record[] {
   });
 }
 
-export async function convertMarkdown(rawContent: string) {
+export async function convertMarkdown(rawContent: string): Promise<{ contentHtml: string }> {
   const processedContent = await remark()
     .use(remarkParse) // Parse markdown into mdast
     .use(remarkRehype, { allowDangerousHtml: true }) // Convert mdast -> hast (HTML AST)

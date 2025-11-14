@@ -17,19 +17,19 @@ function getCurrentWeekNumber(birthdate: Date): number {
   return diffWeeks + 1;
 }
 
-const lifespanYears = 100;
+// const lifespanYears = 100;
 const weeksPerYear = 52;
-const totalWeeks = lifespanYears * weeksPerYear;
+// const totalWeeks = lifespanYears * weeksPerYear;
 
 function getAgeAtYear(birthdate: Date, year: number): number {
   return year - birthdate.getFullYear();
 }
 
-function getWeekNumberForYearStart(year: number): number {
-  const yearStartDate = new Date(year, 0, 1);
-  const diffMs = yearStartDate.getTime() - birthdate.getTime();
-  return Math.floor(diffMs / (1000 * 60 * 60 * 24 * 7)) + 1;
-}
+// function getWeekNumberForYearStart(year: number): number {
+//   const yearStartDate = new Date(year, 0, 1);
+//   const diffMs = yearStartDate.getTime() - birthdate.getTime();
+//   return Math.floor(diffMs / (1000 * 60 * 60 * 24 * 7)) + 1;
+// }
 
 export default async function LifeInWeeksPage() {
   const jsonPath = path.join(process.cwd(), 'data', 'life-in-weeks.json');

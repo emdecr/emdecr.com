@@ -8,7 +8,7 @@ type GitHubFeedItem = {
   pubDate: string;
 };
 
-const parser = new Parser<{}, GitHubFeedItem>();
+const parser = new Parser<object, GitHubFeedItem>();
 
 export async function getLatestGitHubActivity() {
   const feed = await parser.parseURL('https://github.com/emdecr.atom');
