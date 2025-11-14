@@ -41,9 +41,9 @@ yarn-error.log*
 next-env.d.ts
 
 # data
-books.csv
-bookmarks.csv
-music-rotation.csv
+# books.csv
+# bookmarks.csv
+# music-rotation.csv
 
 #images
 rein_me_in.jpg
