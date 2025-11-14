@@ -3,12 +3,9 @@ title: "UXR Collective: Intro to UX Research + Vision Zero"
 date: "2019-07-07"
 slug: "vision-zero-uxr"
 type: "article"
-summary: ""
+summary: "Exploring newcomer pedestrian safety through UX research in Toronto."
 record_id: 4
 ---
-
-UXR Collective:
-Intro to UX Research + Vision Zero
 
 Overview
 In the summer of 2018 while working full-time at Hypenotic, I was accepted into the inaugural cohort of Intro to UX Research (run by User Experience Research Collective [UXR Collective]).

@@ -1,5 +1,27 @@
+import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
-import { getAllRecords, getRecordBySlug, convertMarkdown, Record as RecordType} from '@/lib/records';
+import { 
+  getAllRecords, 
+  getRecordBySlug, 
+  convertMarkdown, 
+  Record as RecordType 
+} from '@/lib/records';
+
+export async function generateMetadata(
+  { params }: { params: Promise<{ slug: string }> }
+): Promise<Metadata> {
+  const { slug } = await params;
+
+  const record = getRecordBySlug(slug);
+  if (!record) return { title: 'Not Found' };
+
+  const { title, summary } = record.metadata;
+
+  return {
+    title,
+    summary,
+  };
+}
 
 type Props = {
   params: Promise<{
@@ -27,8 +49,7 @@ export default async function RecordPage({ params }: Props) {
   return (
     <article className="prose">
       <h1>{title}</h1>
-      <p>Type: {type}</p>
-{/* 
+      {/* 
       {type === 'book' && record.csvData && (
         <section>
           <h2>Book Info</h2>

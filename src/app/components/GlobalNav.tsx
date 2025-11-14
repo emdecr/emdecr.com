@@ -3,8 +3,8 @@ import Link from 'next/link';
 
 const GlobalNav = () => {
   return (
-    <nav className="nav font-mono">
-      <ul className="flex flex-wrap gap-6 text-sm pt-8">
+    <nav className="nav font-mono p-4 mt-4 mb-8">
+      <ul className="flex flex-wrap gap-12 text-sm">
         <li>
           <Link href="/" className="hover:underline">
             Home

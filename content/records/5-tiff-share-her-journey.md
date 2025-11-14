@@ -3,11 +3,9 @@ title: "TIFF Share Her Journey"
 date: "2019-07-07"
 slug: "tiff-share-her-journey"
 type: "article"
-summary: ""
+summary: "Reimagining TIFF’s Share Her Journey report through supportive, thoughtful design."
 record_id: 5
 ---
-
-TIFF Share Her Journey
 
 I'm a film fan, and have a Toronto International Film Festival (TIFF) membership.
 

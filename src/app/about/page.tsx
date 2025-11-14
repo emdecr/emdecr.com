@@ -17,7 +17,7 @@ export default async function About() {
       <h1 className="text-3xl font-bold mb-4">About</h1>
       <div className="lg:grid gap-12 grid-cols-5">
         <div className="col-span-3">
-          <article className="prose" dangerouslySetInnerHTML={{ __html: contentHtml }}></article>
+          <article className="prose text-lg" dangerouslySetInnerHTML={{ __html: contentHtml }}></article>
         </div>
         <figure className="col-span-2">
           <Image
