@@ -6,7 +6,7 @@ Delving into the hyped and constantly-changing world of AI agents - whatever tha
 
 RAG, MCP, LangChain, LangGraph, Clay, n8n, Zapier. It's a hodgepodge of tools.
 
-Been fun to poke around and look at the workflows people are creating.
+Been fun to poke around and look at the workflows people are creating – and seeing for myself if it's really the over-engineered mess that folks are touting about.
 
 Currently trying to rebuild a few workflows I've come across in my day-to-day with some of the new tech. More on that later.
 
