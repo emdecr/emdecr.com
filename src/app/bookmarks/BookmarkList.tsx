@@ -17,25 +17,27 @@ export default function BookmarkList({ allBookmarks }: { allBookmarks: Bookmark[
 
   return (
     <main className="">
-      <h1 className="text-2xl font-bold">Bookmarks</h1>
+      <h1 className="text-2xl font-bold mb-4">Bookmarks</h1>
 
       <ul className="grid gap-4 grid-cols-3 grid-rows-3">
         {bookmarks.map((b, i) => (
-          <li key={`${b.bookmark_link}-${i}`} className="border p-4 rounded">
+          <li key={`${b.bookmark_link}-${i}`} className="border border-neutral-300 p-4 rounded">
             <a href={b.bookmark_link} target="_blank" rel="noopener noreferrer">
               <h2 className="text-lg font-semibold text-blue-600">{b.bookmark_title}</h2>
             </a>
 
-            <p className="text-sm text-gray-500">
+            <p className="text-sm text-gray-400">
               {new Intl.DateTimeFormat("en-US", {
                 year: "numeric",
-                month: "long",
+                month: "short",
                 day: "numeric",
-                hour: "numeric",
-                minute: "2-digit",
                 hour12: true,
               }).format(new Date(b.bookmark_date))}
             </p>
+
+            {b.bookmark_note && (
+              <p className="text-sm mt-4">{b.bookmark_note}</p>
+            )}
 
             {b.bookmark_image && (
               <Image
@@ -48,8 +50,6 @@ export default function BookmarkList({ allBookmarks }: { allBookmarks: Bookmark[
                 unoptimized // Optional if image host isn't in next.config.js
               />
             )}
-
-            {b.bookmark_note && <p className="mt-2">{b.bookmark_note}</p>}
           </li>
         ))}
       </ul>
