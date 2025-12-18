@@ -1,94 +1,140 @@
 ---
-title: "UXR Collective: Intro to UX Research + Vision Zero"
-date: "2019-07-07"
+title: "UX Research Case Study: Newcomer Pedestrians & Road Safety in Toronto"
+date: "2018-09-01"
 slug: "vision-zero-uxr"
 type: "article"
 summary: "Exploring newcomer pedestrian safety through UX research in Toronto."
 record_id: 4
 ---
 
-Overview
-In the summer of 2018 while working full-time at Hypenotic, I was accepted into the inaugural cohort of Intro to UX Research (run by User Experience Research Collective [UXR Collective]).
+**Role:** UX Research Student  
+**Timeline:** Summer 2018  
+**Partner:** City of Toronto – Vision Zero  
+**Methods:** Qualitative interviews, thematic analysis
 
-For our final project, we were lucky to pair up with folks from City of Toronto’s Vision Zero initiative. Vision Zero recognizes that "fatalities and serious injuries on our roads are preventable, and we must strive to reduce traffic-related deaths and injuries to ZERO" 1.
+---
 
-The UXRC team wanted us to ask ourselves: In the context of road safety, when do pedestrians or bicyclists in Toronto feel at risk of injury, and what types of behavioural changes do they make to compensate?
+## Overview
 
-The team also realized that it was important for us to look at this question from the perspectives of a diverse range of residents. This meant reaching out to folks of different ages, living in different neighbourhoods, and newcomers.
+In the summer of 2018, while working full-time at Hypenotic, I was accepted into the inaugural cohort of **Intro to UX Research**, run by the User Experience Research Collective (UXRC) – now the team behind [Learners Collective](https://joinlearners.com/).
 
-A graphic of people walking down a sidewalk with cars an a town in the background.
-via unDraw
-Process
-Subpopulation choice
-All of the students chose one qualifier from each of the following lists:
+For our final project, our cohort partnered with the **[City of Toronto’s Vision Zero initiative](https://www.toronto.ca/services-payments/streets-parking-transportation/road-safety/vision-zero/vision-zero-plan-overview/)**, which is grounded in the belief that traffic-related fatalities and serious injuries are preventable and should be reduced to zero.
 
-a) Pedestrian/bicyclist
-b) Young adult/parent/elderly OR lives downtown/midtown/uptown OR newcomer/non-newcomer
-I chose pedestrian and newcomer. Why? 1) I figured it would be easier to find pedestrians to interview, and 2) The newcomer narrative is one that I'm interested in (both my parents emigrated to Canada from the Philippines), and it holds a diverse range of experiences.
+Our guiding research question was:
 
-Goals
-Capture the perceptions, opinions, beliefs, and attitudes of newcomer pedestrians when it comes to road safety.
+> **In the context of road safety, when do pedestrians or cyclists in Toronto feel most at risk of injury, and how do they change their behaviour to compensate?**
 
-Create user interview guide
-First, I wanted to define what I meant by 'newcomer'. I decided to use the definition Statistics Canada uses in their censuses, folks who have come to live in Canada within the past five years.
+---
 
-What type of information did I want to discuss and why? Here's how I chunked out my questions:
+## Defining the Focus
 
-Background
-What were the streets like in the previous countries they lived in? Previous experience can shape behaviour. I wanted to know what patterns they were used to, so I could compare that to their current lives in Toronto. Did anything carry over? Was anything extinguished?
-Early Experiences
-What were people's experiences when they first landed in Canada? Fresh and new environments are exactly that, so what stuck out during the early periods? Were there particular interactions that cemented certain beliefs?
-Current Habits
-What's everything like now? After a few months/years what does daily life look like?
-Create a recruitment plan​
-I created a template email to send to different people and organizations around the city. This email included a link to a Google form (public version with personal info excluded), so all info was organized into a spreadsheet.
+Each student selected a specific subpopulation to research. I chose to focus on:
 
-I sent the outreach email to several folks and ended up connecting with most of the participants from organizations that help newcomers and their families. I aimed for and achieved a goal to interview 50% men and 50% women.
+- **Pedestrians**
+- **Newcomers to Canada (within the past five years)**
 
-Talk to people
-I completed 10 one-hour interviews in about two weeks. Mostly in the afternoon after folks got home from work, and on the weekend. They were conducted in the participants' homes, or in places convenient for them to commute to, like libraries, community centres, and parks (luckily we had good weather in July/August). After an intro and signing of consent forms, I recorded audio from all the interviews and kept a few sketches and notes from the participants. Everyone was given a $30 gift card for their participation.
+There were two reasons for this choice:
 
-Synthesize the data
-I transcribed and re-read all the interviews, so I could do some thematic analysis. What themes started popping up?
+1. Pedestrians would be easier to recruit and interview within the project timeline.
+2. The newcomer experience is personally meaningful to me — both of my parents emigrated to Canada from the Philippines — and represents a wide range of lived experiences.
 
-A graphic of a page with specific lines highlights. Lines go from the highlights to mini graphics of annotations/notes.
-via unDraw
-Communicate findings​
-Bringing back our initial question: In the context of road safety, when do pedestrians or bicyclists in Toronto feel at risk of injury, and what types of behavioural changes do they make to compensate?
+---
 
-After dryly answering it using data from the interviews (ie. these are the whens and behavioural changes), I looked at the themes that popped up and decided to expand on the question. Many of the presentations used the question as a jumping off point and segued into related topics for their presentations, which led to an interesting collection.
+## Research Goals
 
-All my participants went through a very specific experience of coming from another country and adapting to a new environment. I wanted to explore this narrative.
+- Understand how newcomer pedestrians perceive road safety
+- Identify behavioural adaptations made in response to perceived risk
+- Explore how early experiences shape long-term habits and beliefs
 
-The cohort was super lucky that the team took the time to run through all of our presentations. After running through my deck, Alec Levin said something along the lines of, "I get what you're going for, but it's still a bit confusing. BUT what you've talked about can take the form of a model that most folks are familiar with – a timeline or journey." He thought everything would be more digestible and impactful in that format.
+---
 
-I agreed. Thank goodness for discussion and feedback, eh?
+## Interview Design
 
-On August 21st, 2018 at one of Shopify's Toronto offices, the cohort presented their decks in front of folks from the City of Toronto team, folks from the industry and our friends.
+To ground the research, I used **Statistics Canada’s definition of “newcomer”** (individuals who arrived in Canada within the past five years).
 
-Here's my initial deck, and the revamped version (converted to Google Slides to show notes – formatting changed a bit from Keynote). In the revamped version you can see the timeline structure, and some statistics were moved to the ending for impact (Thank you again, Alec).
+I structured interviews around three phases:
 
-Insights + Questions – TL;DR
-Earlier intervention (?)
-Folks mentioned aspects of hyper-vigilance when first arriving; they paid close attention to things
-Could we explore if this leads to better retention?
-Folks did not recall pedestrian safety as being mentioned in any of the pamphlets they first received during the immigration process
-Folks mentioned that they were educated early on about pedestrian safety through friends (and they don't necessarily give the safest advice)
-More touchpoint checkups (?)
-It can take a while before people settle in and get into contact with community-related organizations
-Should the/How does the government attempt to reach people earlier? Should road safety be implemented more consistently and/or seriously in community-related organization?
-A graphic of a timeline-esque line. At certain points in the line, there are geolocation pins and circles that denote various points.
-via unDraw
-Conclusion
-Challenges, what I would like to have done differently, and where I'd go next
-For a few of the participants, English wasn't their first language or they were taking classes to advance their English skills. There wasn't a complete language barrier between myself and participants, but things may have been lost in translation, or we may have delved deeper into certain topics if we could work out a common translation for certain concepts we were stuck on; sometimes there were phrases we didn't know how to convey in the other's language. At times Google Translate was brought in by both parties, and we used sketches and gestures to try and illustrate our points – to both of our amusements. On a second iteration, pairing up with translators for whoever felt they needed/wanted it would be something I'd like to explore.
+### Background
+What were the streets like in participants’ previous countries?  
+How might prior environments shape current behaviour?
 
-First and foremost an interview is a conversation between two humans. I didn't want to make anyone feel uncomfortable.
+### Early Experiences in Canada
+What stood out when they first arrived?  
+Were there moments that cemented beliefs around safety or risk?
 
-Even though I decided to steer away from the stewardship, I'm still incredibly curious about how we get folks to care more for each other. Beyond the pamphlets and earlier touch points, how might we have folks identify with or picture themselves as being caring towards others. What are the pros and cons to that?
+### Current Habits
+How do participants navigate Toronto streets today?  
+What behaviours have persisted, changed, or faded over time?
 
-All this to say...
-Massive 'thank you' to the UXR Collective team, all the speakers who took the time to teach us every week, and our participants. I learnt so much and was pushed outside my comfort zone. It was such a great opportunity to delve further into this important issue.
+---
 
-Footnotes
-1 City of Toronto, 'Vision Zero Plan Overview', City of Toronto, https://www.toronto.ca/services-payments/streets-parking-transportation/road-safety/vision-zero/vision-zero-plan-overview/, (accessed 13 December 2019).
+## Recruitment & Fieldwork
+
+I created a recruitment email and Google Form to organize responses and reached out to community organizations supporting newcomers and their families.
+
+- **Participants:** 10 newcomer pedestrians  
+- **Gender split:** 50% men / 50% women  
+- **Interview length:** ~1 hour each  
+- **Locations:** Homes, libraries, community centres, parks  
+- **Compensation:** $30 gift card  
+
+All interviews were conducted with informed consent and audio-recorded.
+
+---
+
+## Synthesis & Analysis
+
+After transcribing the interviews, I conducted a thematic analysis to identify recurring patterns.
+
+While the original research question focused on *when* risk occurs and *what behaviours* follow, a broader narrative emerged:
+
+> Many participants described a period of heightened vigilance immediately after arriving in Canada, followed by a gradual normalization of risk over time.
+
+---
+
+## Reframing the Findings
+
+During a practice presentation, UXRC instructor **Alec Levin** offered feedback that shifted my approach:
+
+> What you’re describing feels like a journey. This would be clearer and more impactful as a timeline.
+
+This reframing helped transform the findings into a **journey model**, mapping how perceptions and behaviours evolved from arrival to settlement.
+
+---
+
+## Key Insights (TL;DR)
+
+### Earlier intervention
+- Participants recalled being highly attentive when first arriving
+- Pedestrian safety was rarely mentioned in official newcomer materials
+- Early education often came from peers, not trusted authorities
+
+### Missed touchpoints
+- Many newcomers didn’t connect with community organizations until much later
+- This delay may limit the effectiveness of safety education
+
+### Open questions
+- Could early hyper-vigilance be leveraged for better retention of safety behaviours?
+- How might government or community organizations reach newcomers earlier and more consistently?
+
+---
+
+## Reflections & What I’d Do Differently
+
+Language was a meaningful constraint. While there was no complete language barrier, nuances were sometimes lost. Participants and I occasionally relied on Google Translate, sketches, and gestures to communicate concepts.
+
+In a future iteration, I would:
+- Offer translators where desired
+- Build more time into interviews for clarification
+- Explore multilingual research materials
+
+Most importantly, this project reinforced for me that **interviews are conversations between humans**, not just data collection exercises.
+
+---
+
+## Closing Thoughts
+
+Even though this project moved away from direct policy stewardship, it deepened my curiosity about how we foster care and responsibility toward others in shared spaces.
+
+How do we move beyond pamphlets and checklists?  
+How might people see themselves as active participants in collective safety?
