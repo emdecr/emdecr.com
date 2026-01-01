@@ -15,6 +15,7 @@ export interface RecordMetadata {
   slug: string;
   type: 'book' | 'film' | 'article';
   record_id?: string;
+  status?: 'published' | 'draft' | 'hidden'; // Controls visibility on front-end
   [key: string]: unknown; // Optional: Extend as needed (e.g. author, date, etc.)
 }
 
@@ -50,27 +51,34 @@ function getAllMarkdownFiles(dir: string): string[] {
 
 /**
  * Get all records (books, films, etc.) as a flat list, using the frontmatter slug
+ * Only returns records with status 'published' or no status (for backward compatibility)
  */
 export function getAllRecords(): Record[] {
   const filePaths = getAllMarkdownFiles(recordsDirectory);
 
-  return filePaths.map((filePath) => {
-    const fileContents = fs.readFileSync(filePath, 'utf8');
-    const { data, content } = matter(fileContents);
+  return filePaths
+    .map((filePath) => {
+      const fileContents = fs.readFileSync(filePath, 'utf8');
+      const { data, content } = matter(fileContents);
 
-    const metadata = data as RecordMetadata;
+      const metadata = data as RecordMetadata;
 
-    if (!metadata.slug) {
-      throw new Error(`Missing 'slug' in frontmatter: ${filePath}`);
-    }
+      if (!metadata.slug) {
+        throw new Error(`Missing 'slug' in frontmatter: ${filePath}`);
+      }
 
-    return {
-      slug: metadata.slug,
-      content,
-      metadata,
-      filePath,
-    };
-  });
+      return {
+        slug: metadata.slug,
+        content,
+        metadata,
+        filePath,
+      };
+    })
+    .filter((record) => {
+      // Only show published records (or records with no status for backward compatibility)
+      const status = record.metadata.status;
+      return !status || status === 'published';
+    });
 }
 
 export async function convertMarkdown(rawContent: string): Promise<{ contentHtml: string }> {
