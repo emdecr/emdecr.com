@@ -8,6 +8,14 @@ const nextConfig: NextConfig = {
       },
     ],
   },
+  async rewrites() {
+    return [
+      {
+        source: '/records/feed.xml',
+        destination: '/records/feed',
+      },
+    ];
+  },
 };
 
 export default nextConfig;

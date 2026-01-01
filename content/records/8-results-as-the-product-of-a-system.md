@@ -7,13 +7,13 @@ summary: "Notes on systems, responsibility, and softening anger."
 record_id: 8
 ---
 
-> “…putting new actors into the same system will not improve the system's performance.  
-> What makes a difference is redesigning the system to improve the information, incentives, disincentives, goals, stresses, and constraints that have an effect on specific actors.”  
+> …putting new actors into the same system will not improve the system's performance.  
+> What makes a difference is redesigning the system to improve the information, incentives, disincentives, goals, stresses, and constraints that have an effect on specific actors.  
 > — *Thinking in Systems*, Donella H. Meadows (2008)
 
 This echoes Lou Downe’s mention of **Conway’s Law** in *Good Services*. The law states that:
 
-> “Any organization that designs a system will produce a design whose structure is a copy of the organization’s communication structure.”
+> Any organization that designs a system will produce a design whose structure is a copy of the organization’s communication structure.
 
 In other words, the product, service, or result is *infused with the essence of its creators*.[^1]
 
