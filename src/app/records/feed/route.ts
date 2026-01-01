@@ -22,8 +22,12 @@ export async function GET() {
   
   // Sort records by date (newest first)
   const sortedRecords = records.sort((a, b) => {
-    const dateA = a.metadata.date ? new Date(a.metadata.date).getTime() : 0;
-    const dateB = b.metadata.date ? new Date(b.metadata.date).getTime() : 0;
+    const dateA = (a.metadata.date && typeof a.metadata.date === 'string') 
+      ? new Date(a.metadata.date).getTime() 
+      : 0;
+    const dateB = (b.metadata.date && typeof b.metadata.date === 'string') 
+      ? new Date(b.metadata.date).getTime() 
+      : 0;
     return dateB - dateA;
   });
 
@@ -33,14 +37,18 @@ export async function GET() {
   // Generate RSS items
   const items = await Promise.all(
     sortedRecords.map(async (record) => {
-      const { title, slug, date, summary } = record.metadata;
+      const { title, slug, summary } = record.metadata;
+      const date = record.metadata.date;
       const link = `${siteUrl}/records/${slug}`;
-      const pubDate = date ? formatDate(date) : new Date().toUTCString();
+      const pubDate = (date && typeof date === 'string') 
+        ? formatDate(date) 
+        : new Date().toUTCString();
       
       // Convert markdown to HTML for description
       const { contentHtml } = await convertMarkdown(record.content);
       // Strip HTML tags for plain text summary, or use the summary from frontmatter
-      const description = summary || contentHtml.replace(/<[^>]*>/g, '').substring(0, 500);
+      const summaryText = (summary && typeof summary === 'string') ? summary : '';
+      const description = summaryText || contentHtml.replace(/<[^>]*>/g, '').substring(0, 500);
       
       return `
     <item>
