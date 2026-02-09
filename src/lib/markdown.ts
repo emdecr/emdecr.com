@@ -11,23 +11,30 @@ export type RecordData = {
   date: string;
   slug: string;
   summary?: string;
+  status?: 'published' | 'draft' | 'hidden'; // Controls visibility on front-end
   contentHtml?: string;
 };
 
 export function getAllRecords(): RecordData[] {
   const files = fs.readdirSync(recordsPath);
 
-  const records = files.map((filename) => {
-    const slug = filename.replace(/\.md$/, '');
-    const fullPath = path.join(recordsPath, filename);
-    const fileContents = fs.readFileSync(fullPath, 'utf8');
-    const { data } = matter(fileContents);
+  const records = files
+    .map((filename) => {
+      const slug = filename.replace(/\.md$/, '');
+      const fullPath = path.join(recordsPath, filename);
+      const fileContents = fs.readFileSync(fullPath, 'utf8');
+      const { data } = matter(fileContents);
 
-    return {
-      slug,
-      ...(data as Omit<RecordData, 'slug'>),
-    };
-  });
+      return {
+        slug,
+        ...(data as Omit<RecordData, 'slug'>),
+      };
+    })
+    .filter((record) => {
+      // Only show published records (or records with no status for backward compatibility)
+      const status = record.status;
+      return !status || status === 'published';
+    });
 
   // Sort records by date in descending order
   return records.sort((a, b) => {
