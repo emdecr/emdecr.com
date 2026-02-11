@@ -3,6 +3,7 @@ import path from 'path';
 import matter from 'gray-matter';
 import { remark } from 'remark';
 import remarkParse from 'remark-parse';
+import remarkGfm from 'remark-gfm';
 import remarkRehype from 'remark-rehype';
 import rehypeRaw from 'rehype-raw';
 import rehypeStringify from 'rehype-stringify';
@@ -84,6 +85,7 @@ export function getAllRecords(): Record[] {
 export async function convertMarkdown(rawContent: string): Promise<{ contentHtml: string }> {
   const processedContent = await remark()
     .use(remarkParse) // Parse markdown into mdast
+    .use(remarkGfm) // GitHub-flavored markdown (tables, strikethrough, task lists, footnotes, etc.)
     .use(remarkRehype, { allowDangerousHtml: true }) // Convert mdast -> hast (HTML AST)
     .use(rehypeRaw) // Parse any raw HTML in the markdown
     // .use(rehypeSanitize) // Optional: sanitize HTML for safety

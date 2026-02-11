@@ -3,6 +3,7 @@ import path from 'path';
 import matter from 'gray-matter';
 import { remark } from 'remark';
 import html from 'remark-html';
+import remarkGfm from 'remark-gfm';
 
 const recordsPath = path.join(process.cwd(), 'content/records');
 
@@ -50,7 +51,7 @@ export async function getRecordBySlug(slug: string): Promise<RecordData> {
   const fileContents = fs.readFileSync(fullPath, 'utf8');
   const { data, content } = matter(fileContents);
 
-  const processedContent = await remark().use(html).process(content);
+  const processedContent = await remark().use(remarkGfm).use(html).process(content);
   const contentHtml = processedContent.toString();
 
   return {
@@ -65,7 +66,7 @@ export async function getMarkdownContent(fileName: string) {
   const fileContents = fs.readFileSync(filePath, 'utf8');
 
   const { content, data } = matter(fileContents);
-  const processedContent = await remark().use(html).process(content);
+  const processedContent = await remark().use(remarkGfm).use(html).process(content);
   const contentHtml = processedContent.toString();
 
   return {
