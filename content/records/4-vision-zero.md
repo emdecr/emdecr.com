@@ -3,7 +3,7 @@ title: "UX Research Case Study: Newcomer Pedestrians & Road Safety in Toronto"
 date: "2018-09-01"
 slug: "vision-zero-uxr"
 type: "article"
-summary: "Exploring newcomer pedestrian safety through UX research in Toronto."
+summary: "Exploring newcomer pedestrian safety through UX research in Toronto"
 record_id: 4
 ---
 

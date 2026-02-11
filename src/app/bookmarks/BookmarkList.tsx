@@ -19,7 +19,7 @@ export default function BookmarkList({ allBookmarks }: { allBookmarks: Bookmark[
     <main className="">
       <h1 className="text-2xl font-bold mb-4">Bookmarks</h1>
 
-      <ul className="grid gap-4 grid-cols-3 grid-rows-3">
+      <ul className="grid gap-4 grid-cols-1 md:grid-cols-3">
         {bookmarks.map((b, i) => (
           <li key={`${b.bookmark_link}-${i}`} className="border border-neutral-300 p-4 rounded">
             <a href={b.bookmark_link} target="_blank" rel="noopener noreferrer">

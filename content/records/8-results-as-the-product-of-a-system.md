@@ -3,7 +3,7 @@ title: "Re: Results as the product of a system"
 date: "2020-08-23"
 slug: "results-as-the-product-of-a-system"
 type: "article"
-summary: "Notes on systems, responsibility, and softening anger."
+summary: "Notes on systems, responsibility, and softening anger"
 record_id: 8
 ---
 

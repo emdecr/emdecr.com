@@ -3,7 +3,7 @@ title: "Four+ years at Hypenotic"
 date: "2019-10-07"
 slug: "hypenotic-four-years"
 type: "article"
-summary: "Building thoughtful digital projects at a mission-driven studio."
+summary: "Building thoughtful digital projects at a mission-driven studio"
 record_id: 3
 ---
 
