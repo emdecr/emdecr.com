@@ -11,8 +11,6 @@ _Why mindful reflection on purchases matters for people and planet._
 
 ---
 
-![An illustration of a person looking down at their phone beside a browser window showing various clothing items. Decorative plant details are also strew throughout the graphic.](https://emilydelacruz.com/data/custom/uploads/2020/01/undraw_online_shopping_ga73-1024x790.png)
-
 ## **Looking back on a moment**
 
 At this point I’ve resorted to positive self-talk to keep me going. *Just two more places — you can do this.* I want to find the nearest exit…but I came to this place on a mission and can’t procrastinate any longer. Beads of sweat are dripping down various body parts. No doubt due to the massive collection of people, the mistake of wearing a heavy jacket, and the rapid pace at which I’m walking. The lights are bright. The signs shout at me with their bold colours and big type. I make a bee-line to a just-vacated couch and plop down. Several bags in my hands fan out around me as if in protection against the chaos.

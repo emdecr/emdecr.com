@@ -31,3 +31,5 @@ As humans, we err — but we can also acknowledge, learn, and shift our behaviou
 Congrats to Kai and the Offscreen team on another issue!
 
 You can purchase this issue (and previous ones) [here](https://www.offscreenmag.com/issues/23).
+
+![Cover of Offscreen magazine issue 23. The main image is a hand-drawn illustration of Bruce Schneier.](https://cdn.emilydelacruz.com/images/offscreen-cover-23.jpg)

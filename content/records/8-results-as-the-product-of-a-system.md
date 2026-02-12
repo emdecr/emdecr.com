@@ -21,6 +21,9 @@ Downe goes on to say that siloed organizations result in siloed services — and
 
 I bought the two stickers seen below from Lou Downe’s shop, and they now sit on my windowsill as a small but persistent reminder.[^2]
 
+![Photo of orange, square sticker. It reads: Lack of diversity on your team = lack of inclusion in your service.](https://cdn.emilydelacruz.com/images/good-services-sticker-diversity.jpg)
+![Photo of orange, square sticker. It reads: Siloed organizations build siloed services.](https://cdn.emilydelacruz.com/images/good-services-sticker-silo.jpg)
+
 ---
 
 Thinking this way makes me look at the systems we’ve put in place across society and think:
@@ -41,8 +44,6 @@ But it *does* offer insight into why behaviour manifests at all.
 And for me, that understanding helps soften the anger — just enough — so I can switch into a mode that lets me move forward instead of staying stuck.
 
 ---
-
-## Footnotes
 
 [^1]: Van Dusen, M. (2016, May 19). *A principle called “Conway’s Law” reveals a glaring, biased flaw in our technology*. Quartz. Retrieved Aug 23, 2020, from https://qz.com/687457/a-principle-called-conways-law-reveals-a-glaring-biased-flaw-in-our-technology/
 

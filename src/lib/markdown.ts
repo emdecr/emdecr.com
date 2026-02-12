@@ -51,7 +51,11 @@ export async function getRecordBySlug(slug: string): Promise<RecordData> {
   const fileContents = fs.readFileSync(fullPath, 'utf8');
   const { data, content } = matter(fileContents);
 
-  const processedContent = await remark().use(remarkGfm).use(html).process(content);
+  const processedContent = await remark()
+    .use(remarkGfm)
+    // Allow raw HTML and attributes in markdown records (trusted content).
+    .use(html, { sanitize: false })
+    .process(content);
   const contentHtml = processedContent.toString();
 
   return {
@@ -66,7 +70,11 @@ export async function getMarkdownContent(fileName: string) {
   const fileContents = fs.readFileSync(filePath, 'utf8');
 
   const { content, data } = matter(fileContents);
-  const processedContent = await remark().use(remarkGfm).use(html).process(content);
+  const processedContent = await remark()
+    .use(remarkGfm)
+    // Allow raw HTML and attributes in page markdown (trusted content).
+    .use(html, { sanitize: false })
+    .process(content);
   const contentHtml = processedContent.toString();
 
   return {

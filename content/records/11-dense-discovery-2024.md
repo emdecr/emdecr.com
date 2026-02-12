@@ -14,3 +14,5 @@ My selections reflect themes I keep circling lately: attention, patience, and le
 I also shared a piece of advice from Jocelyn K. Glei that I’m still practicing: allow things the time and space they need to ripen.
 
 Small things, gently offered. You can read the full *Worthy Five* in **[Dense Discovery Issue 277](https://www.densediscovery.com/issues/277)**.
+
+![Screencap of Worthy Five section of Dense discovery Issue 277](https://cdn.emilydelacruz.com/images/dense-discovery-issue-277.png)

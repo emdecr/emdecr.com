@@ -11,7 +11,7 @@ I’m a film fan and a Toronto International Film Festival (TIFF) member.
 
 In 2017, TIFF launched **Share Her Journey**, an initiative aimed at increasing participation, skills, and opportunities for women both behind and in front of the camera. As someone who deeply values representation, I decided to show my support by making a donation.
 
-Later that year, I received the initiative’s results report via email — delivered as a PDF.
+Later that year, I received the initiative’s results report via email — [delivered as a PDF](https://cdn.emilydelacruz.com/pdfs/tiff-share-her-journey-report.pdf).
 
 I loved seeing the outcomes and progress, but I immediately wondered:
 

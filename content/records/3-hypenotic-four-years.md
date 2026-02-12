@@ -3,11 +3,11 @@ title: "Four+ years at Hypenotic"
 date: "2019-10-07"
 slug: "hypenotic-four-years"
 type: "article"
-summary: "Building thoughtful digital projects at a mission-driven studio"
+summary: "Building thoughtful digital projects at a mission-driven, B-Corp studio"
 record_id: 3
 ---
 
-I joined the Hypenotic team in 2015, shortly after graduating from Juno College’s (formerly HackerYou) Full-Time Front-End Web Development Immersive.
+I joined the [Hypenotic](https://hypenotic.com/) team in 2015, shortly after graduating from Juno College’s (formerly HackerYou) Full-Time Front-End Web Development Immersive.
 
 Hypenotic is a founding Canadian B Corp, made up of strategic, creative, and technical problem-solvers based in Toronto. The team focuses on working with visionary entrepreneurs, innovative non-profits, and intrapreneurs committed to systems change.
 
