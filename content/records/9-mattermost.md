@@ -11,7 +11,7 @@ _Crafting and evolving a complex web and GTM system_
 
 ---
 
-When I joined Mattermost in 2021, I thought I was signing up for a familiar job:
+When I joined [Mattermost](https://mattermost.com/) in 2021, I thought I was signing up for a familiar job:
 
 Build web pages. Improve the site. Support Marketing.
 
