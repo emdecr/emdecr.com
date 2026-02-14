@@ -103,3 +103,5 @@ Mattermost strengthened parts of me that I now treat as core skills:
 - Operating inside ambiguity without freezing  
 
 Most importantly, Mattermost expanded my definition of what “web developer” can mean and other roles and responsibilities it could evolve into.
+
+A sincere thank you to everyone I crossed paths with over the years. The growth I experienced was only possible because of thoughtful, supportive teammates.

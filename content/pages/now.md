@@ -10,4 +10,4 @@ Been fun to poke around and look at the workflows people are creating – and se
 
 Currently trying to rebuild a few workflows I've come across in my day-to-day with some of the new tech. More on that later.
 
-Last Updated: Nov 14, 2025
+_Last Updated: Nov 14, 2025_
