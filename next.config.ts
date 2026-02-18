@@ -6,6 +6,10 @@ const nextConfig: NextConfig = {
       {
         hostname: 'localhost'
       },
+      {
+        hostname: 'cdn.emilydelacruz.com',
+        pathname: '/images/**',
+      },
     ],
   },
   async rewrites() {
