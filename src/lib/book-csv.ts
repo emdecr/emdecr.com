@@ -6,6 +6,7 @@ export interface BookCsvRow {
   book_id: string;
   record_id: string;
   post_title: string;
+  post_slug: string;
   post_date: string;
   read_title: string;
   read_subtitle: string;
@@ -48,4 +49,8 @@ export function getBookCsvRowByRecordId(id: string): BookCsvRow | undefined {
 export function getBookCsvRowByBookId(id: string): BookCsvRow | undefined {
     // Normalize both values as strings
     return getCsvData().find((row) => String(row.book_id) === String(id));
+}
+
+export function getBookBySlug(slug: string): BookCsvRow | undefined {
+  return getCsvData().find((row) => row.post_slug === slug);
 }

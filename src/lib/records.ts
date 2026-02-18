@@ -98,11 +98,19 @@ export async function convertMarkdown(rawContent: string): Promise<{ contentHtml
   };
 }
 
+import { getBookCsvRowByRecordId } from './book-csv';
+
+/**
+ * Get a single record by its record_id from frontmatter (for linking CSV rows to full posts).
+ */
+export function getRecordByRecordId(record_id: string): Record | undefined {
+  const all = getAllRecords();
+  return all.find((r) => r.metadata.record_id != null && String(r.metadata.record_id) === String(record_id));
+}
+
 /**
  * Get a single record by its slug from frontmatter
  */
-import { getBookCsvRowByRecordId } from './book-csv';
-
 export function getRecordBySlug(slug: string): Record | undefined {
   const all = getAllRecords();
   const record = all.find((r) => r.slug === slug);
