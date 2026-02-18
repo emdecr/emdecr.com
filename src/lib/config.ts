@@ -1,1 +1,1 @@
-export const currentBookId = '70';
+export const currentBookId = '69';
