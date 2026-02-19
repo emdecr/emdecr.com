@@ -36,6 +36,14 @@ export default async function Home() {
               Recommended links
           </Link>
         </li>
+        <li>
+          <Link
+              href="/bookshelf"
+              rel="noopener noreferrer"
+              className="underline">
+              Bookshelf
+          </Link>
+        </li>
       </ul>
 
     </main>

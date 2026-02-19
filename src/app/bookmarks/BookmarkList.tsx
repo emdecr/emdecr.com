@@ -16,17 +16,17 @@ export default function BookmarkList({ allBookmarks }: { allBookmarks: Bookmark[
   const bookmarks = allBookmarks.slice(start, start + PER_PAGE);
 
   return (
-    <main className="">
-      <h1 className="text-2xl font-bold mb-4">Bookmarks</h1>
+    <main className="prose max-w-none">
+      <h1>Bookmarks</h1>
 
-      <ul className="grid gap-4 grid-cols-1 md:grid-cols-3">
+      <ul className="not-prose list-none pl-0 space-y-6">
         {bookmarks.map((b, i) => (
-          <li key={`${b.bookmark_link}-${i}`} className="border border-neutral-300 p-4 rounded">
-            <a href={b.bookmark_link} target="_blank" rel="noopener noreferrer">
-              <h2 className="text-lg font-semibold text-blue-600">{b.bookmark_title}</h2>
+          <li key={`${b.bookmark_link}-${i}`} className="border-b border-neutral-200 pb-6 last:border-b-0">
+            <a href={b.bookmark_link} target="_blank" rel="noopener noreferrer" className="no-underline">
+              <h2 className="text-xl font-semibold mb-2">{b.bookmark_title}</h2>
             </a>
 
-            <p className="text-sm text-gray-400">
+            <p className="text-sm text-gray-500 mb-2">
               {new Intl.DateTimeFormat("en-US", {
                 year: "numeric",
                 month: "short",
@@ -36,7 +36,7 @@ export default function BookmarkList({ allBookmarks }: { allBookmarks: Bookmark[
             </p>
 
             {b.bookmark_note && (
-              <p className="text-sm mt-4">{b.bookmark_note}</p>
+              <p className="text-sm text-gray-700 mb-2">{b.bookmark_note}</p>
             )}
 
             {b.bookmark_image && (
@@ -55,17 +55,17 @@ export default function BookmarkList({ allBookmarks }: { allBookmarks: Bookmark[
       </ul>
 
       {/* Pagination */}
-      <div className="flex justify-between mt-8">
+      <div className="not-prose flex justify-between items-center mt-8">
         <Link
           href={`?page=${page - 1}`}
-          className={`px-4 py-2 bg-gray-200 rounded ${page <= 1 ? "pointer-events-none opacity-50" : ""}`}
+          className={`px-4 py-2 bg-gray-200 rounded inline-flex items-center ${page <= 1 ? "pointer-events-none opacity-50" : ""}`}
         >
           Previous
         </Link>
-        <p className="self-center">Page {page} of {totalPages}</p>
+        <p className="text-sm">Page {page} of {totalPages}</p>
         <Link
           href={`?page=${page + 1}`}
-          className={`px-4 py-2 bg-gray-200 rounded ${page >= totalPages ? "pointer-events-none opacity-50" : ""}`}
+          className={`px-4 py-2 bg-gray-200 rounded inline-flex items-center ${page >= totalPages ? "pointer-events-none opacity-50" : ""}`}
         >
           Next
         </Link>

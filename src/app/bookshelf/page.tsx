@@ -14,6 +14,9 @@ export default async function BookshelfPage() {
   return (
     <main className="prose">
       <h1 className="text-2xl font-semibold mb-6">Bookshelf</h1>
+      <p className="text-sm text-gray-500 mb-6">
+        Trying to keep track of what I&apos;ve read, and some of my notes on them.
+      </p>
       <ul className="not-prose list-none p-0 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6">
         {books.map((row) => {
           const record = row.record_id ? getRecordByRecordId(row.record_id) : undefined;
