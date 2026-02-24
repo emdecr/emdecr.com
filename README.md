@@ -26,12 +26,16 @@ The site uses a file-based content system with two main content types:
   - Same markdown processing pipeline as records
   - Rendered server-side in their respective page components
 
-#### Structured Data (`data/`)
+#### Structured Data (`data/` and optional Supabase)
 
-CSV files store structured content that's parsed at runtime:
+Bookmarks and bookshelf can come from **Supabase** (no rebuild to update) or **CSV fallback**:
 
-- **`bookmarks.csv`**: Web bookmarks with metadata (title, link, image, notes)
-- **`books.csv`**: Reading list with book metadata linked to records via `record_id`
+- **With Supabase**: Set `NEXT_PUBLIC_SUPABASE_URL` and `SUPABASE_ANON_KEY` in `.env.local`. The app fetches from the `bookmarks` and `books` tables. Use the Supabase dashboard or API to edit data; changes show after revalidation (no deploy). See `.env.example`.
+- **Without Supabase** (or if either env var is missing): The app reads from `data/bookmarks.csv` and `data/books.csv`. Edit the CSVs and redeploy to update.
+
+Other data remains file-based:
+
+- **`bookmarks.csv`** / **`books.csv`**: Used when Supabase is not configured (see above).
 - **`music-rotation.csv`**: Currently listening tracks
 - **`life-in-weeks.json`**: Life calendar visualization data
 
@@ -41,8 +45,9 @@ The `src/lib/` directory contains utilities for content processing:
 
 - **`markdown.ts`**: Functions to read and process markdown files, extract frontmatter, and convert to HTML
 - **`records.ts`**: Record-specific processing with markdown-to-HTML conversion using remark/rehype
-- **`bookmarks.ts`**: CSV parsing for bookmarks with date sorting
-- **`book-csv.ts`**: Book data lookup utilities with caching
+- **`data-source.ts`**: Fetches bookmarks and books from Supabase (when env is set) or falls back to CSV; uses Next.js cache with revalidation.
+- **`bookmarks.ts`**: Loads bookmarks via data-source (date-sorted).
+- **`book-csv.ts`**: Book/bookshelf lookups via data-source; current book from Supabase `is_current` or `config.currentBookId` when using CSV.
 - **`music-rotation.ts`**: Track data processing from CSV
 - **`github.ts`**: Fetches latest GitHub activity via RSS feed parsing
 
@@ -57,11 +62,19 @@ The `src/lib/` directory contains utilities for content processing:
 - **`/bookmarks`**: Bookmark listing page
 - **`/life-in-weeks`**: Life calendar visualization
 
+### Supabase setup (optional)
+
+To use Supabase for bookmarks and bookshelf:
+
+1. Create a Supabase project and run the migration in `supabase/migrations/001_bookmarks_and_books.sql` (Table Editor > SQL or `supabase db push` if using Supabase CLI).
+2. Add `NEXT_PUBLIC_SUPABASE_URL` and `SUPABASE_ANON_KEY` to `.env.local` (see `.env.example`).
+3. Import data: use the Table Editor CSV import for `bookmarks` and `books`, or run `scripts/import-csv-to-supabase.ts`. Set `is_current = true` on one book to show it as "currently reading" on the Now page.
+
 ### Build & Deployment
 
 - **Static Generation**: Records are pre-rendered at build time via `generateStaticParams`
 - **RSS Feed**: Generated dynamically via API route handler with hourly revalidation
-- **No Runtime Database**: All content is file-based, making deployments simple and portable
+- **Bookmarks/bookshelf**: From Supabase when configured (with revalidation), or from CSV at build/request time
 
 ### Development
 

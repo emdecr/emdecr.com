@@ -9,7 +9,7 @@ export const metadata: Metadata = {
 };
 
 export default async function BookshelfPage() {
-  const books = getCsvData();
+  const books = await getCsvData();
 
   return (
     <main className="prose">

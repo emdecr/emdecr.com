@@ -1,6 +1,4 @@
-import fs from 'fs';
-import path from 'path';
-import { parse } from 'csv-parse/sync';
+import { fetchBooks, fetchCurrentBook } from '@/lib/data-source';
 
 export interface BookCsvRow {
   book_id: string;
@@ -20,37 +18,26 @@ export interface BookCsvRow {
   read_image: string;
 }
 
-const csvPath = path.join(process.cwd(), 'data/books.csv');
-
-let cachedCsvData: BookCsvRow[] | null = null;
-
-function loadCsv(): BookCsvRow[] {
-  const fileContent = fs.readFileSync(csvPath, 'utf-8');
-  return parse(fileContent, {
-    columns: true,
-    skip_empty_lines: true,
-  }) as BookCsvRow[];
+export async function getCsvData(): Promise<BookCsvRow[]> {
+  return fetchBooks();
 }
 
-export function getCsvData(): BookCsvRow[] {
-  if (!cachedCsvData) {
-    cachedCsvData = loadCsv();
-  }
-  return cachedCsvData;
+export async function getBookCsvRowByRecordId(id: string): Promise<BookCsvRow | undefined> {
+  const books = await getCsvData();
+  return books.find((row) => String(row.record_id) === String(id));
 }
 
-// Example lookup by record_id (assuming frontmatter has record_id: "xyz")
-export function getBookCsvRowByRecordId(id: string): BookCsvRow | undefined {
-    // Normalize both values as strings
-    return getCsvData().find((row) => String(row.record_id) === String(id));
+export async function getBookCsvRowByBookId(id: string): Promise<BookCsvRow | undefined> {
+  const books = await getCsvData();
+  return books.find((row) => String(row.book_id) === String(id));
 }
 
-// Example lookup by book_id (assuming frontmatter has book_id: "xyz")
-export function getBookCsvRowByBookId(id: string): BookCsvRow | undefined {
-    // Normalize both values as strings
-    return getCsvData().find((row) => String(row.book_id) === String(id));
+export async function getBookBySlug(slug: string): Promise<BookCsvRow | undefined> {
+  const books = await getCsvData();
+  return books.find((row) => row.post_slug === slug);
 }
 
-export function getBookBySlug(slug: string): BookCsvRow | undefined {
-  return getCsvData().find((row) => row.post_slug === slug);
+/** Current book (is_current in Supabase, or config.currentBookId when using CSV fallback). */
+export async function getCurrentBook(): Promise<BookCsvRow | null> {
+  return fetchCurrentBook();
 }

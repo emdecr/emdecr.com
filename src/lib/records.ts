@@ -111,7 +111,7 @@ export function getRecordByRecordId(record_id: string): Record | undefined {
 /**
  * Get a single record by its slug from frontmatter
  */
-export function getRecordBySlug(slug: string): Record | undefined {
+export async function getRecordBySlug(slug: string): Promise<Record | undefined> {
   const all = getAllRecords();
   const record = all.find((r) => r.slug === slug);
   if (!record) return undefined;
@@ -119,7 +119,7 @@ export function getRecordBySlug(slug: string): Record | undefined {
   const { type, record_id } = record.metadata;
 
   if (type === 'book' && record_id) {
-    const csv = getBookCsvRowByRecordId(record_id);
+    const csv = await getBookCsvRowByRecordId(record_id);
     if (csv) {
       record.csvData = csv;
     }

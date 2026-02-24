@@ -1,9 +1,8 @@
 import type { Metadata } from 'next'
 import Image from 'next/image';
 import Link from "next/link";
-import { getBookCsvRowByBookId } from '@/lib/book-csv';
+import { getCurrentBook } from '@/lib/book-csv';
 import type { BookCsvRow } from '@/lib/book-csv';
-import { currentBookId } from '@/lib/config';
 import { getLatestGitHubActivity } from '@/lib/github';
 import { getLatestTrack } from '@/lib/music-rotation';
 import { getMarkdownContent } from '@/lib/markdown';
@@ -17,7 +16,7 @@ export const metadata: Metadata = {
 
 
 export default async function NowPage() {
-    const book: BookCsvRow | undefined = getBookCsvRowByBookId(currentBookId);
+    const book: BookCsvRow | null = await getCurrentBook();
     const activity = await getLatestGitHubActivity();
     const latestBookmark = await getLatestBookmark();
     const track = getLatestTrack();
