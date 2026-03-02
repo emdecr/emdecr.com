@@ -8,8 +8,15 @@ import {
   Record as RecordType,
 } from '@/lib/records';
 import { getBookBySlug, getCsvData, type BookCsvRow } from '@/lib/book-csv';
+import {
+  getBespokeRecord,
+  getBespokeComponent,
+  getAllBespokeRecords,
+} from '@/lib/bespoke-records';
 
 async function getTitleForSlug(slug: string): Promise<string | undefined> {
+  const bespoke = getBespokeRecord(slug);
+  if (bespoke) return bespoke.title;
   const record = await getRecordBySlug(slug);
   if (record) return record.metadata.title;
   const row = await getBookBySlug(slug);
@@ -35,9 +42,11 @@ type Props = {
 export async function generateStaticParams() {
   const records = getAllRecords();
   const books = await getCsvData();
+  const bespoke = getAllBespokeRecords();
   const bookSlugs = books.map((row) => row.post_slug);
   const recordSlugs = records.map((r) => r.slug);
-  const slugs = [...new Set([...recordSlugs, ...bookSlugs])];
+  const bespokeSlugs = bespoke.map((r) => r.slug);
+  const slugs = [...new Set([...recordSlugs, ...bookSlugs, ...bespokeSlugs])];
   return slugs.map((slug) => ({ slug }));
 }
 
@@ -90,7 +99,7 @@ function BookMetadata({ row }: { row: BookCsvRow }) {
               <dt className="font-medium text-gray-500">Link</dt>
               <dd>
                 <a href={row.read_link} target="_blank" rel="noopener noreferrer" className="underline">
-                  {row.read_link}
+                  {new URL(row.read_link.startsWith('http') ? row.read_link : `https://${row.read_link}`).hostname}
                 </a>
               </dd>
             </div>
@@ -103,6 +112,14 @@ function BookMetadata({ row }: { row: BookCsvRow }) {
 
 export default async function RecordPage({ params }: Props) {
   const { slug } = await params;
+
+  // Check for bespoke record first
+  const bespokeMeta = getBespokeRecord(slug);
+  if (bespokeMeta) {
+    const Component = await getBespokeComponent(slug);
+    if (Component) return <Component />;
+  }
+
   let record: RecordType | undefined = await getRecordBySlug(slug);
   let csvRow: BookCsvRow | undefined = await getBookBySlug(slug);
 

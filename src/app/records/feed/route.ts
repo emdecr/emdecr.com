@@ -1,4 +1,5 @@
 import { getAllRecords, convertMarkdown } from '@/lib/records';
+import { getAllBespokeRecords } from '@/lib/bespoke-records';
 
 export const dynamic = 'force-dynamic';
 export const revalidate = 3600; // Revalidate every hour
@@ -34,22 +35,22 @@ export async function GET() {
   // Get site URL from environment or use a default
   const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://example.com';
   
-  // Generate RSS items
-  const items = await Promise.all(
+  // Generate RSS items from markdown records
+  const markdownItems = await Promise.all(
     sortedRecords.map(async (record) => {
       const { title, slug, summary } = record.metadata;
       const date = record.metadata.date;
       const link = `${siteUrl}/records/${slug}`;
-      const pubDate = (date && typeof date === 'string') 
-        ? formatDate(date) 
+      const pubDate = (date && typeof date === 'string')
+        ? formatDate(date)
         : new Date().toUTCString();
-      
+
       // Convert markdown to HTML for description
       const { contentHtml } = await convertMarkdown(record.content);
       // Strip HTML tags for plain text summary, or use the summary from frontmatter
       const summaryText = (summary && typeof summary === 'string') ? summary : '';
       const description = summaryText || contentHtml.replace(/<[^>]*>/g, '').substring(0, 500);
-      
+
       return `
     <item>
       <title>${escapeXml(title)}</title>
@@ -60,6 +61,25 @@ export async function GET() {
     </item>`;
     })
   );
+
+  // Generate RSS items from bespoke records
+  const bespokeRecords = getAllBespokeRecords();
+  const bespokeItems = bespokeRecords.map((record) => {
+    const link = `${siteUrl}/records/${record.slug}`;
+    const pubDate = record.date ? formatDate(record.date) : new Date().toUTCString();
+    const description = record.summary || '';
+
+    return `
+    <item>
+      <title>${escapeXml(record.title)}</title>
+      <link>${escapeXml(link)}</link>
+      <guid isPermaLink="true">${escapeXml(link)}</guid>
+      <pubDate>${pubDate}</pubDate>
+      <description>${escapeXml(description)}</description>
+    </item>`;
+  });
+
+  const items = [...markdownItems, ...bespokeItems];
 
   const rss = `<?xml version="1.0" encoding="UTF-8"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
