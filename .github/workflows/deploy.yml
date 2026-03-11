@@ -53,4 +53,4 @@ jobs:
         run: |
           ssh -i ~/.ssh/deploy_key -p 2222 \
             ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_HOST }} \
-            'bash -lc "pm2 restart edc 2>/dev/null || pm2 start ~/emdecr.com/server.js --name edc && pm2 save"'
+            'export NVM_DIR="$HOME/.nvm" && \. "$NVM_DIR/nvm.sh" && pm2 restart edc 2>/dev/null || pm2 start ~/emdecr.com/server.js --name edc && pm2 save'
