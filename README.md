@@ -6,7 +6,7 @@ A personal website built with [Next.js](https://nextjs.org) using a file-based c
 
 ### Framework & Stack
 
-- **Next.js 16** with App Router for server-side rendering and static site generation
+- **Next.js 16** with App Router and `output: 'standalone'` for self-contained server deployment
 - **TypeScript** for type safety
 - **Tailwind CSS** with `@tailwindcss/typography` for styling
 - **React 19** for the UI layer
@@ -43,7 +43,6 @@ Other data remains file-based:
 
 The `src/lib/` directory contains utilities for content processing:
 
-- **`markdown.ts`**: Functions to read and process markdown files, extract frontmatter, and convert to HTML
 - **`records.ts`**: Record-specific processing with markdown-to-HTML conversion using remark/rehype
 - **`data-source.ts`**: Fetches bookmarks and books from Supabase (when env is set) or falls back to CSV; uses Next.js cache with revalidation.
 - **`bookmarks.ts`**: Loads bookmarks via data-source (date-sorted).
@@ -59,10 +58,11 @@ The `src/lib/` directory contains utilities for content processing:
 - **`/records/feed.xml`**: RSS feed (rewritten from `/records/feed` route handler)
 - **`/about`**: About page from markdown
 - **`/now`**: "Now" page combining markdown content with dynamic data (current book, GitHub activity, latest bookmark, music)
-- **`/bookmarks`**: Bookmark listing page
+- **`/bookmarks`**: Bookmark listing with pagination
+- **`/bookshelf`**: Book archive
 - **`/life-in-weeks`**: Life calendar visualization
 
-### Supabase setup (optional)
+### Supabase Setup (optional)
 
 To use Supabase for bookmarks and bookshelf:
 
@@ -70,26 +70,47 @@ To use Supabase for bookmarks and bookshelf:
 2. Add `NEXT_PUBLIC_SUPABASE_URL` and `SUPABASE_ANON_KEY` to `.env.local` (see `.env.example`).
 3. Import data: use the Table Editor CSV import for `bookmarks` and `books`, or run `scripts/import-csv-to-supabase.ts`. Set `is_current = true` on one book to show it as "currently reading" on the Now page.
 
-### Build & Deployment
-
-- **Static Generation**: Records are pre-rendered at build time via `generateStaticParams`
-- **RSS Feed**: Generated dynamically via API route handler with hourly revalidation
-- **Bookmarks/bookshelf**: From Supabase when configured (with revalidation), or from CSV at build/request time
-
 ### Development
 
 ```bash
 npm run dev      # Start development server
-npm run build    # Build for production
-npm run start    # Start production server
+npm run build    # Build for production (outputs standalone bundle)
+npm run start    # Start production server (not used in prod — see Deployment)
 npm run lint     # Run ESLint
 ```
+
+### Deployment
+
+Deploys are automated via GitHub Actions on every push to `main`. The workflow:
+
+1. Builds the app on GitHub's runners (avoids memory constraints of the production VPS)
+2. Packages the `standalone` output with static assets, `public/`, `content/`, and `data/`
+3. rsyncs the bundle to the server over SSH (port 2222)
+4. Restarts the pm2 process (`edc`) on the server
+
+The server runs the app with:
+```bash
+pm2 start ~/emdecr.com/server.js --name edc
+```
+
+**Required GitHub Actions secrets:**
+
+| Secret | Description |
+|--------|-------------|
+| `DEPLOY_KEY` | SSH private key for the deploy user |
+| `SERVER_HOST` | Server IP or hostname |
+| `SERVER_USER` | SSH username |
+| `NEXT_PUBLIC_SUPABASE_URL` | Supabase project URL (build-time) |
+| `SUPABASE_ANON_KEY` | Supabase anon key (build-time) |
+
+**Server requirements:**
+- Node.js (via nvm) and pm2 installed
+- `.env.local` present at `~/emdecr.com/.env.local` (never overwritten by deploys)
+- SSH access on port 2222
 
 ### Key Dependencies
 
 - **Content Processing**: `gray-matter`, `remark`, `remark-html`, `rehype-raw`
 - **Data Parsing**: `csv-parse` for CSV files
-- **External APIs**: `rss-parser` for GitHub activity feed
+- **External APIs**: `rss-parser` for GitHub activity feed, `@supabase/supabase-js` for optional database
 - **Styling**: `tailwindcss`, `@tailwindcss/typography`
-
-This architecture prioritizes simplicity, portability, and performance—content lives in version control, builds are fast, and the site can be deployed anywhere that serves static files.
