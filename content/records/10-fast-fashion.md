@@ -3,6 +3,7 @@ title: "Look Twice: The Hidden Cost of What We Buy"
 date: "2017-04-26"
 slug: "look-twice-fast-fashion-hidden-costs"
 type: "article"
+categories: ["sustainability"]
 summary: "Why mindful reflection on purchases matters for people and planet"
 record_id: 10
 ---

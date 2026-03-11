@@ -3,6 +3,7 @@ title: "TIFF: Share Her Journey — Rethinking an Impact Report"
 date: "2017-12-22"
 slug: "tiff-share-her-journey"
 type: "article"
+categories: ["design", "work"]
 summary: "Reimagining TIFF’s Share Her Journey report through supportive, thoughtful design"
 record_id: 5
 ---

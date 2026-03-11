@@ -19,6 +19,7 @@ export interface RecordMetadata {
   type: 'book' | 'film' | 'article';
   summary?: string;
   record_id?: string;
+  categories?: string[];
   status?: 'published' | 'draft' | 'hidden'; // Controls visibility on front-end
   [key: string]: unknown;
 }
@@ -130,6 +131,60 @@ export async function getRecordBySlug(slug: string): Promise<Record | undefined>
   // You can add other type-specific data loading here too
 
   return record;
+}
+
+/**
+ * Get all unique categories across markdown and bespoke records.
+ */
+export function getAllCategories(): string[] {
+  const { getAllBespokeRecords } = require('./bespoke-records');
+  const markdownRecords = getAllRecords();
+  const bespokeRecords = getAllBespokeRecords();
+
+  const categories = new Set<string>();
+
+  for (const r of markdownRecords) {
+    for (const cat of r.metadata.categories ?? []) {
+      categories.add(cat);
+    }
+  }
+  for (const r of bespokeRecords) {
+    for (const cat of r.categories ?? []) {
+      categories.add(cat);
+    }
+  }
+
+  return Array.from(categories).sort();
+}
+
+/**
+ * Get all records (markdown + bespoke) that belong to a given category.
+ */
+export function getRecordsByCategory(category: string) {
+  const { getAllBespokeRecords } = require('./bespoke-records');
+  const markdownRecords = getAllRecords();
+  const bespokeRecords = getAllBespokeRecords();
+
+  const allRecords = [
+    ...markdownRecords.map((r) => ({
+      slug: r.slug,
+      title: r.metadata.title,
+      date: r.metadata.date,
+      summary: r.metadata.summary,
+      categories: r.metadata.categories ?? [],
+    })),
+    ...bespokeRecords.map((r: { slug: string; title: string; date: string; summary?: string; categories?: string[] }) => ({
+      slug: r.slug,
+      title: r.title,
+      date: r.date,
+      summary: r.summary,
+      categories: r.categories ?? [],
+    })),
+  ];
+
+  return allRecords
+    .filter((r) => r.categories.includes(category))
+    .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
 }
 
 /**

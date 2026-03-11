@@ -9,6 +9,7 @@ export interface BespokeRecordMeta {
   title: string;
   date: string;
   summary?: string;
+  categories?: string[];
   status?: 'published' | 'draft' | 'hidden';
 }
 
@@ -26,12 +27,23 @@ function extractMetadataFromFile(
   if (!match) return null;
 
   const body = match[1];
-  const result: Record<string, string> = {};
+  const result: Record<string, unknown> = {};
 
+  // Match array values like: categories: ['a', 'b']
+  const arrayRegex = /(\w+)\s*:\s*\[([^\]]*)\]/g;
+  let arrMatch;
+  while ((arrMatch = arrayRegex.exec(body)) !== null) {
+    const items = arrMatch[2].match(/['"]([^'"]*)['"]/g);
+    result[arrMatch[1]] = items ? items.map((s) => s.replace(/['"]/g, '')) : [];
+  }
+
+  // Match string values (skip keys already matched as arrays)
   const pairRegex = /(\w+)\s*:\s*['"]([^'"]*)['"]/g;
   let m;
   while ((m = pairRegex.exec(body)) !== null) {
-    result[m[1]] = m[2];
+    if (!(m[1] in result)) {
+      result[m[1]] = m[2];
+    }
   }
 
   return result as unknown as Omit<BespokeRecordMeta, 'slug'>;

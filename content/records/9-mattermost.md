@@ -3,6 +3,7 @@ title: "On Building at Mattermost"
 date: "2026-02-09"
 slug: "mattermost"
 type: "article"
+categories: ["work"]
 summary: "Crafting and evolving a complex web and GTM system"
 record_id: 9
 ---

@@ -3,6 +3,7 @@ title: "Offscreen, Issue 23"
 date: "2020-07-20"
 slug: "re-offscreen-issue-23"
 type: "article"
+categories: ["writing"]
 summary: "A small note on an indie magazine and saying yes"
 record_id: 6
 ---

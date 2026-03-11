@@ -3,6 +3,7 @@ title: "Four+ years at Hypenotic"
 date: "2019-10-07"
 slug: "hypenotic-four-years"
 type: "article"
+categories: ["work"]
 summary: "Building thoughtful digital projects at a mission-driven, B-Corp studio"
 record_id: 3
 ---

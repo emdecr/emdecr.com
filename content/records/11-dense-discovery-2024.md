@@ -3,6 +3,7 @@ title: "Dense Discovery: Worthy Five"
 date: "2024-02-26"
 slug: "dense-discovery-worthy-five"
 type: "article"
+categories: ["writing"]
 summary: "A guest feature for Issue 277 of one of my favourite newsletters"
 record_id: 11
 ---
