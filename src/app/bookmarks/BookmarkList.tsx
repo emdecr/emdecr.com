@@ -8,7 +8,7 @@ import { Bookmark } from "@/lib/bookmarks";
 export default function BookmarkList({ allBookmarks }: { allBookmarks: Bookmark[] }) {
   const searchParams = useSearchParams();
   const PER_PAGE = 12;
-  const page = parseInt(searchParams.get("page") || "1", PER_PAGE);  
+  const page = parseInt(searchParams.get("page") || "1", 10);
 
   const total = allBookmarks.length;
   const totalPages = Math.ceil(total / PER_PAGE);

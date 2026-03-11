@@ -1,6 +1,6 @@
 import type { Metadata } from 'next'
 import Link from "next/link";
-import { getMarkdownContent } from '@/lib/markdown';
+import { getMarkdownContent } from '@/lib/records';
  
 export const metadata: Metadata = {
   title: 'Emily Dela Cruz - Home',
@@ -21,26 +21,17 @@ export default async function Home() {
 
       <ul className="text-xl">
         <li>
-          <Link
-              href="/records"
-              rel="noopener noreferrer"
-              className="underline">
+          <Link href="/records" className="underline">
               Articles
           </Link>
         </li>
         <li>
-          <Link
-              href="/bookmarks"
-              rel="noopener noreferrer"
-              className="underline">
+          <Link href="/bookmarks" className="underline">
               Recommended links
           </Link>
         </li>
         <li>
-          <Link
-              href="/bookshelf"
-              rel="noopener noreferrer"
-              className="underline">
+          <Link href="/bookshelf" className="underline">
               Bookshelf
           </Link>
         </li>

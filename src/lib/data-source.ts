@@ -184,6 +184,3 @@ export const getCachedCurrentBook = unstable_cache(
   { revalidate: REVALIDATE_SECONDS }
 );
 
-export async function fetchCurrentBook(): Promise<BookCsvRow | null> {
-  return getCachedCurrentBook();
-}

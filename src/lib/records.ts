@@ -1,6 +1,7 @@
 import fs from 'fs';
 import path from 'path';
 import matter from 'gray-matter';
+import { getBookCsvRowByRecordId } from './book-csv';
 import { remark } from 'remark';
 import remarkParse from 'remark-parse';
 import remarkGfm from 'remark-gfm';
@@ -14,10 +15,12 @@ const recordsDirectory = path.join(process.cwd(), 'content/records');
 export interface RecordMetadata {
   title: string;
   slug: string;
+  date: string;
   type: 'book' | 'film' | 'article';
+  summary?: string;
   record_id?: string;
   status?: 'published' | 'draft' | 'hidden'; // Controls visibility on front-end
-  [key: string]: unknown; // Optional: Extend as needed (e.g. author, date, etc.)
+  [key: string]: unknown;
 }
 
 // The full structure returned by getAllRecords / getRecordBySlug
@@ -79,7 +82,8 @@ export function getAllRecords(): Record[] {
       // Only show published records (or records with no status for backward compatibility)
       const status = record.metadata.status;
       return !status || status === 'published';
-    });
+    })
+    .sort((a, b) => new Date(b.metadata.date).getTime() - new Date(a.metadata.date).getTime());
 }
 
 export async function convertMarkdown(rawContent: string): Promise<{ contentHtml: string }> {
@@ -97,8 +101,6 @@ export async function convertMarkdown(rawContent: string): Promise<{ contentHtml
     contentHtml: processedContent.toString()
   };
 }
-
-import { getBookCsvRowByRecordId } from './book-csv';
 
 /**
  * Get a single record by its record_id from frontmatter (for linking CSV rows to full posts).
@@ -128,4 +130,15 @@ export async function getRecordBySlug(slug: string): Promise<Record | undefined>
   // You can add other type-specific data loading here too
 
   return record;
+}
+
+/**
+ * Read a standalone markdown page from content/pages/ and convert to HTML.
+ */
+export async function getMarkdownContent(fileName: string) {
+  const filePath = path.join(process.cwd(), 'content/pages', fileName);
+  const fileContents = fs.readFileSync(filePath, 'utf8');
+  const { content, data } = matter(fileContents);
+  const { contentHtml } = await convertMarkdown(content);
+  return { contentHtml, data };
 }

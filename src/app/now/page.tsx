@@ -5,7 +5,7 @@ import { getCurrentBook } from '@/lib/book-csv';
 import type { BookCsvRow } from '@/lib/book-csv';
 import { getLatestGitHubActivity } from '@/lib/github';
 import { getLatestTrack } from '@/lib/music-rotation';
-import { getMarkdownContent } from '@/lib/markdown';
+import { getMarkdownContent } from '@/lib/records';
 import { getLatestBookmark } from "@/lib/bookmarks";
 
 

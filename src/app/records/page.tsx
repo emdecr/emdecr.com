@@ -1,6 +1,6 @@
 import type { Metadata } from 'next'
 import Link from 'next/link';
-import { getAllRecords } from '@/lib/markdown';
+import { getAllRecords } from '@/lib/records';
 import { getAllBespokeRecords } from '@/lib/bespoke-records';
 
 export const metadata: Metadata = {
@@ -16,9 +16,9 @@ export default async function RecordsPage() {
   const allRecords = [
     ...markdownRecords.map((r) => ({
       slug: r.slug,
-      title: r.title,
-      date: r.date,
-      summary: r.summary,
+      title: r.metadata.title,
+      date: r.metadata.date,
+      summary: r.metadata.summary,
     })),
     ...bespokeRecords.map((r) => ({
       slug: r.slug,

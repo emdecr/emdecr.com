@@ -1,7 +1,7 @@
 import type { Metadata } from 'next'
 // import Link from 'next/link';
 import Image from 'next/image'
-import { getMarkdownContent } from '@/lib/markdown';
+import { getMarkdownContent } from '@/lib/records';
 
 export const metadata: Metadata = {
   title: 'Emily Dela Cruz - About',
