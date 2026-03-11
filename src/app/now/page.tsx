@@ -70,7 +70,7 @@ export default async function NowPage() {
                             {book.read_image && (
                                 <Image
                                     src={book.read_image}
-                                    alt={`Album art for ${book.read_title}`}
+                                    alt={`Cover of ${book.read_title}`}
                                     width={150}
                                     height={150} // required unless layout="fill"
                                     className="border border-solid border-slate-200 mb-2"

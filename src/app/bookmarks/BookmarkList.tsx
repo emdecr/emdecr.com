@@ -42,7 +42,7 @@ export default function BookmarkList({ allBookmarks }: { allBookmarks: Bookmark[
             {b.bookmark_image && (
               <Image
                 src={b.bookmark_image}
-                alt={b.bookmark_title}
+                alt=""
                 width={400}
                 height={200}
                 className="mt-2 rounded object-cover"
@@ -55,21 +55,41 @@ export default function BookmarkList({ allBookmarks }: { allBookmarks: Bookmark[
       </ul>
 
       {/* Pagination */}
-      <div className="not-prose flex justify-between items-center mt-8">
-        <Link
-          href={`?page=${page - 1}`}
-          className={`px-4 py-2 bg-gray-200 rounded inline-flex items-center ${page <= 1 ? "pointer-events-none opacity-50" : ""}`}
-        >
-          Previous
-        </Link>
+      <nav aria-label="Pagination" className="not-prose flex justify-between items-center mt-8">
+        {page <= 1 ? (
+          <span
+            className="px-4 py-2 bg-gray-200 rounded inline-flex items-center opacity-50"
+            aria-disabled="true"
+          >
+            Previous
+          </span>
+        ) : (
+          <Link
+            href={`?page=${page - 1}`}
+            className="px-4 py-2 bg-gray-200 rounded inline-flex items-center"
+            aria-label="Previous page"
+          >
+            Previous
+          </Link>
+        )}
         <p className="text-sm">Page {page} of {totalPages}</p>
-        <Link
-          href={`?page=${page + 1}`}
-          className={`px-4 py-2 bg-gray-200 rounded inline-flex items-center ${page >= totalPages ? "pointer-events-none opacity-50" : ""}`}
-        >
-          Next
-        </Link>
-      </div>
+        {page >= totalPages ? (
+          <span
+            className="px-4 py-2 bg-gray-200 rounded inline-flex items-center opacity-50"
+            aria-disabled="true"
+          >
+            Next
+          </span>
+        ) : (
+          <Link
+            href={`?page=${page + 1}`}
+            className="px-4 py-2 bg-gray-200 rounded inline-flex items-center"
+            aria-label="Next page"
+          >
+            Next
+          </Link>
+        )}
+      </nav>
     </main>
   );
 }

@@ -32,8 +32,13 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         <div className="px-4 w-full mx-auto max-w-2xl">
+          <a href="#main-content" className="skip-link">
+            Skip to main content
+          </a>
           <GlobalNav />
-          {children}
+          <div id="main-content">
+            {children}
+          </div>
           <footer className="prose pt-10 pb-10">
             <p className="text-sm"><a href="https://github.com/emdecr/" rel="noopener noreferrer" className="underline link--external">GitHub</a>. <a href="https://www.linkedin.com/in/emilydelacruz/" rel="noopener noreferrer" className="underline link--external">LinkedIn</a></p>
             <p className="text-sm">&copy; {currentYear} Emily Dela Cruz. Fonts by <a href="https://www.collletttivo.it/typefaces" rel="noopener noreferrer" className="underline link--external">Collletttivo</a>.</p>

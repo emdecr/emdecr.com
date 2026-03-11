@@ -1,5 +1,11 @@
+import type { Metadata } from 'next'
 import { readFile } from 'fs/promises';
 import path from 'path';
+
+export const metadata: Metadata = {
+  title: 'Emily Dela Cruz - Life in Weeks',
+  description: 'A visual representation of life measured in weeks.',
+}
 
 // Week data type
 type WeekData = {

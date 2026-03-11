@@ -98,6 +98,37 @@ body {
   text-decoration: underline;
 }
 
+/* Skip Link */
+.skip-link {
+  position: absolute;
+  left: -9999px;
+  top: auto;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  z-index: 100;
+  padding: 0.5rem 1rem;
+  background: var(--foreground);
+  color: var(--background);
+  font-size: 0.875rem;
+  text-decoration: none;
+  border-radius: 0 0 0.25rem 0.25rem;
+}
+
+.skip-link:focus {
+  position: fixed;
+  left: 1rem;
+  top: 0;
+  width: auto;
+  height: auto;
+}
+
+/* Focus Styles */
+:focus-visible {
+  outline: 2px solid var(--foreground);
+  outline-offset: 2px;
+}
+
 /* Fade-in Animation */
 @keyframes fadeIn {
   from {
@@ -110,6 +141,12 @@ body {
 
 .fade-in {
   animation: fadeIn 0.8s ease-out;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .fade-in {
+    animation: none;
+  }
 }
 
 /* External Link */
