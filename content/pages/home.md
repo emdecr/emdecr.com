@@ -15,9 +15,9 @@ summary: "Developer exploring opportunities at the intersection of technology an
   For the past decade, I’ve spanned technical, user-focused, and operational roles — web development,
   UX research, marketing ops, and program management. If it sounds like I do a bit of everything,
   it’s because curiosity and experience have opened those doors. I like solving practical problems,
-  understanding systems, and helping teams work better.
+  understanding systems, and helping teams move the needle on things that matter.
 </p>
 
 <p class="text-xl leading-relaxed mb-4">
-  I’m exploring what’s next. If what you see on here and <a href="https://cdn.emilydelacruz.com/pdfs/resume-emily-dela-cruz.pdf" class="underline">my resume</a> interests you, let’s chat: <a href="mailto:hello@emilydelacruz.com" class="underline">hello@emilydelacruz.com</a>.
+  I’m exploring what’s next. If what you see on here interests you, let’s chat: <a href="mailto:hello@emilydelacruz.com" class="underline">hello@emilydelacruz.com</a>.
 </p>
