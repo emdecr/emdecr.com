@@ -26,6 +26,6 @@ I built CogExt as an alternative to tools like mymind and Pinterest, with full o
 - Set up production infrastructure: Docker multi-stage builds (~150MB image), Docker Compose for the full stack (app + Postgres + MinIO), deployed to a Linode instance, database backup/restore scripts, and a CI pipeline with automated deploys
 - Wrote unit, integration, and E2E tests (Vitest + React Testing Library + Playwright)
 
-**How I built it:** I used Claude as a development partner throughout — not as a code generator, but as a collaborator I worked with iteratively, directing architecture decisions, scoping features, and reviewing implementation. The project has 82 commits and reflects sustained, intentional building over time. I deployed and maintain it on my own server.
+**How I built it:** I used Claude as a development partner throughout — not as a code generator, but as a collaborator I worked with iteratively, directing architecture decisions, scoping features, and reviewing implementation. I deployed and maintain it on my own server.
 
 **What this project sharpened:** How to scope and ship a complex full-stack application independently, how to work effectively with AI tools as part of a real development workflow, and how much I enjoy building software that serves a genuine personal need.
