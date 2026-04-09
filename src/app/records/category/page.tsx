@@ -22,7 +22,7 @@ export default function CategoriesPage() {
           const count = getRecordsByCategory(category).length;
           return (
             <li key={category}>
-              <Link href={`/records/category/${category}`}>
+              <Link href={`/records/category/${category}`} prefetch={false}>
                 {formatCategoryName(category)}
               </Link>
               <span className="text-sm text-gray-500 ml-2">({count})</span>

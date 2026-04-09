@@ -24,7 +24,7 @@ export default async function BookshelfPage() {
           const title = row.read_title || row.post_title;
           return (
             <li key={row.book_id}>
-              <Link href={`/records/${slug}`} className="block no-underline group">
+              <Link href={`/records/${slug}`} prefetch={false} className="block no-underline group">
                 <div className="aspect-[2/3] rounded border border-gray-200 overflow-hidden bg-gray-100 mb-2">
                   {row.read_image ? (
                     <img

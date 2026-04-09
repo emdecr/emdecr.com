@@ -35,7 +35,7 @@ export default async function RecordsPage() {
       <ul className="space-y-2 text-lg">
         {allRecords.map((record) => (
           <li key={record.slug}>
-            <Link href={`/records/${record.slug}`}>
+            <Link href={`/records/${record.slug}`} prefetch={false}>
               <strong>{record.title}</strong> — {record.date}
             </Link>
             <p className="text-sm m-0">{record.summary}</p>

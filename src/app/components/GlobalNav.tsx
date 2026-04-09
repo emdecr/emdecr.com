@@ -23,6 +23,7 @@ const GlobalNav = () => {
             <li key={href}>
               <Link
                 href={href}
+                prefetch={false}
                 className="hover:underline"
                 aria-current={isCurrent ? 'page' : undefined}
               >

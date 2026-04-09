@@ -36,12 +36,12 @@ export default async function CategoryPage({ params }: Props) {
     <main className="records fade-in prose">
       <h1 className="text-2xl font-semibold mb-4">{formatCategoryName(slug)}</h1>
       <p>
-        <Link href="/records/category">&larr; All categories</Link>
+        <Link href="/records/category" prefetch={false}>&larr; All categories</Link>
       </p>
       <ul className="space-y-2 text-lg">
         {records.map((record) => (
           <li key={record.slug}>
-            <Link href={`/records/${record.slug}`}>
+            <Link href={`/records/${record.slug}`} prefetch={false}>
               <strong>{record.title}</strong> — {record.date}
             </Link>
             <p className="text-sm m-0">{record.summary}</p>

@@ -66,6 +66,7 @@ export default function BookmarkList({ allBookmarks }: { allBookmarks: Bookmark[
         ) : (
           <Link
             href={`?page=${page - 1}`}
+            prefetch={false}
             className="px-4 py-2 bg-gray-200 rounded inline-flex items-center"
             aria-label="Previous page"
           >
@@ -83,6 +84,7 @@ export default function BookmarkList({ allBookmarks }: { allBookmarks: Bookmark[
         ) : (
           <Link
             href={`?page=${page + 1}`}
+            prefetch={false}
             className="px-4 py-2 bg-gray-200 rounded inline-flex items-center"
             aria-label="Next page"
           >

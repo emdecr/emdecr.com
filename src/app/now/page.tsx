@@ -56,6 +56,7 @@ export default async function NowPage() {
                                 <p>
                                     <Link
                                     href={track.link}
+                                    prefetch={false}
                                     target="_blank"
                                     rel="noopener noreferrer"
                                     className="underline link--external">Listen</Link>
@@ -97,6 +98,7 @@ export default async function NowPage() {
                             </p>
                             <Link
                                 href={latestBookmark.bookmark_link}
+                                prefetch={false}
                                 target="_blank"
                                 rel="noopener noreferrer"
                                 className="underline link--external"

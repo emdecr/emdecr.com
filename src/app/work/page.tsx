@@ -74,7 +74,7 @@ function WorkEntry({
 
       {metadata.recordSlug && (
         <p className="not-prose mt-4">
-          <Link href={`/records/${metadata.recordSlug}`} className="underline">
+          <Link href={`/records/${metadata.recordSlug}`} prefetch={false} className="underline">
             Read the full case study &rarr;
           </Link>
         </p>

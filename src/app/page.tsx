@@ -21,22 +21,22 @@ export default async function Home() {
 
       <ul className="text-xl">
         <li>
-          <Link href="/work" className="underline">
+          <Link href="/work" prefetch={false} className="underline">
             Work
           </Link>
         </li>
         <li>
-          <Link href="/records" className="underline">
+          <Link href="/records" prefetch={false} className="underline">
             Articles
           </Link>
         </li>
         <li>
-          <Link href="/bookmarks" className="underline">
+          <Link href="/bookmarks" prefetch={false} className="underline">
             Recommended links
           </Link>
         </li>
         <li>
-          <Link href="/bookshelf" className="underline">
+          <Link href="/bookshelf" prefetch={false} className="underline">
             Bookshelf
           </Link>
         </li>
