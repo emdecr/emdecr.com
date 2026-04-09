@@ -10,15 +10,6 @@ export default function AGhostStory() {
   return (
     <article>
       <style>{`
-        @keyframes ghostScratch {
-          0%, 100% {
-            transform: translate(955px, 420px);
-          }
-          50% {
-            transform: translate(955px, 410px);
-          }
-        }
-
         @keyframes scratchMark {
           0%, 100% {
             opacity: 0.9;
@@ -28,16 +19,11 @@ export default function AGhostStory() {
           }
         }
 
-        .ghost-arm {
-          animation: ghostScratch 4s ease-in-out infinite;
-        }
-
         .scratch-mark {
           animation: scratchMark 4s ease-in-out infinite;
         }
 
         @media (prefers-reduced-motion: reduce) {
-          .ghost-arm,
           .scratch-mark {
             animation: none;
           }
@@ -97,7 +83,16 @@ export default function AGhostStory() {
 
               {/* Arm — animated */}
               <g id="Arm" mask="url(#mask-2)">
-                <g className="ghost-arm" style={{ transformOrigin: '0 0' }}>
+                <g transform="translate(955, 420)">
+                  <animateTransform
+                    attributeName="transform"
+                    type="translate"
+                    values="955,420;955,410;955,420"
+                    dur="4s"
+                    repeatCount="indefinite"
+                    calcMode="spline"
+                    keySplines="0.42 0 0.58 1;0.42 0 0.58 1"
+                  />
                   <g id="Ghost_Arm">
                     <path d="M75,1 C68.8857422,1.60449219 61,5 50,25 C39,45 30,49 24,75 C18,101 0,117 0,117 L37.5,363.466797 L67.7255859,363.466797 L75,1 Z" id="arm_base" fill="#F1F1F1" fillRule="nonzero" />
                     <path d="M73.7919922,1.03417969 C68.4865968,1.69167004 61.3671875,10.4708751 61.2148438,14.5400391 C61.0625,18.609203 60.7133789,21.5776367 66.3452148,21.1313477 C68.3673834,20.971103 74.0466309,21.9333496 74.6069336,19.1337891 C75.5349607,14.4968884 81.4212983,15.0751257 81.2285156,10.4708751 C80.9277344,3.28728139 79.0973876,0.37668933 73.7919922,1.03417969 Z" id="finger" fill="#F1F1F1" />
