@@ -1,19 +1,20 @@
 /**
  * map-projection.ts — Converts lat/lng coordinates to SVG x/y positions.
  *
- * The world map SVG (from MapSVG) uses a Miller cylindrical projection.
- * This file implements the same projection math so we can place pins
- * at the correct positions on the map.
+ * The world map SVG (from MapSVG) uses a Mercator projection.
+ * We verified this empirically: the UK's SVG path starts at y ≈ 298,
+ * and only the Mercator formula produces a matching value (294) for
+ * London's latitude. Miller (211) and Equirectangular (150) were way off.
  *
- * Miller projection formula:
+ * Mercator projection formula:
  *   x = longitude (linear)
- *   y = 1.25 * ln(tan(π/4 + 0.4 * latitude_in_radians))
+ *   y = ln(tan(π/4 + latitude_in_radians / 2))
  *
- * The key insight: the SVG has a geoViewBox attribute that tells us
- * the geographic bounds of the map. We use those bounds plus the SVG
- * dimensions to map from geographic coordinates to pixel positions.
+ * The SVG has a geoViewBox attribute that tells us the geographic bounds.
+ * We use those bounds plus the SVG dimensions to map from geographic
+ * coordinates to pixel positions.
  *
- * Reference: https://en.wikipedia.org/wiki/Miller_cylindrical_projection
+ * Reference: https://en.wikipedia.org/wiki/Mercator_projection
  */
 
 // ---------------------------------------------------------------------
@@ -34,32 +35,32 @@ const SVG_WIDTH = 1009.6727;
 const SVG_HEIGHT = 665.96301;
 
 // ---------------------------------------------------------------------
-// Miller projection math
+// Mercator projection math
 // ---------------------------------------------------------------------
 
 /**
- * Convert a latitude value to its Miller y-projection.
+ * Convert a latitude value to its Mercator y-projection.
  *
- * The Miller cylindrical projection modifies Mercator by:
- * 1. Multiplying the latitude by 0.8 (4/5) before the Mercator formula
- * 2. Multiplying the result by 1.25 (5/4) after
+ * The Mercator projection maps latitude to y using:
+ *   y = ln(tan(π/4 + lat/2))
  *
- * This reduces the distortion at the poles compared to Mercator,
- * making it better for world maps that include polar regions.
+ * This stretches areas near the poles and compresses the equator,
+ * which is why Greenland looks huge on Mercator maps.
+ * The formula produces values from -∞ (south pole) to +∞ (north pole),
+ * but in practice maps cut off around ±85° latitude.
  */
-function millerY(latDeg: number): number {
+function mercatorY(latDeg: number): number {
   // Convert degrees to radians
   const latRad = (latDeg * Math.PI) / 180;
 
-  // Miller formula: 1.25 * ln(tan(π/4 + 0.4 * lat))
-  // The 0.4 = 2/5, and 1.25 = 5/4 — these are the Miller modification factors
-  return 1.25 * Math.log(Math.tan(Math.PI / 4 + 0.4 * latRad));
+  // Mercator formula: ln(tan(π/4 + lat/2))
+  return Math.log(Math.tan(Math.PI / 4 + latRad / 2));
 }
 
 // Pre-compute the projected y-values for the top and bottom bounds.
 // We need these to map from projected coordinates to SVG pixel positions.
-const PROJECTED_Y_TOP = millerY(GEO_BOUNDS.latTop);
-const PROJECTED_Y_BOTTOM = millerY(GEO_BOUNDS.latBottom);
+const PROJECTED_Y_TOP = mercatorY(GEO_BOUNDS.latTop);
+const PROJECTED_Y_BOTTOM = mercatorY(GEO_BOUNDS.latBottom);
 
 // ---------------------------------------------------------------------
 // Public API
@@ -86,11 +87,11 @@ export function latLngToSvgPoint(
     ((lng - GEO_BOUNDS.lonLeft) / (GEO_BOUNDS.lonRight - GEO_BOUNDS.lonLeft)) *
     SVG_WIDTH;
 
-  // Y uses the Miller projection — we project the latitude, then scale
+  // Y uses the Mercator projection — we project the latitude, then scale
   // it from the projected range to the SVG height.
   // Note: SVG y-axis goes top-to-bottom, but latitude goes bottom-to-top,
   // so we invert by subtracting from the top.
-  const projectedY = millerY(lat);
+  const projectedY = mercatorY(lat);
   const y =
     ((PROJECTED_Y_TOP - projectedY) / (PROJECTED_Y_TOP - PROJECTED_Y_BOTTOM)) *
     SVG_HEIGHT;
