@@ -149,6 +149,15 @@ body {
   }
 }
 
+/* Hide scrollbar — used on the travel modal image slider
+   so the scroll-snap container looks clean without a visible scrollbar. */
+.scrollbar-none {
+  scrollbar-width: none; /* Firefox */
+}
+.scrollbar-none::-webkit-scrollbar {
+  display: none; /* Chrome, Safari, Edge */
+}
+
 /* External Link */
 .link--external:after {
   background: 0 0;

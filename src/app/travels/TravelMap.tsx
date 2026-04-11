@@ -30,6 +30,7 @@ import { latLngToSvgPoint, MAP_VIEWBOX } from "@/lib/map-projection";
 // contains Node.js imports (fs, path) that can't be bundled for the client.
 import { formatTravelDate } from "@/lib/travel-types";
 import type { Travel } from "@/lib/travel-types";
+import TravelModal from "./TravelModal";
 
 // ---------------------------------------------------------------------
 // Props
@@ -53,6 +54,10 @@ type TooltipPosition = {
 export default function TravelMap({ travels, mapSvgContent }: TravelMapProps) {
   // Which travel entry is currently hovered (null = no tooltip shown)
   const [hovered, setHovered] = useState<Travel | null>(null);
+
+  // Which travel entry is selected (null = modal closed).
+  // Set when a pin is clicked, cleared when the modal is closed.
+  const [selected, setSelected] = useState<Travel | null>(null);
 
   // Tooltip position in pixels, updated on mouse move over a pin.
   // We track this separately from `hovered` because the tooltip follows
@@ -131,10 +136,23 @@ export default function TravelMap({ travels, mapSvgContent }: TravelMapProps) {
               }}
               onMouseMove={updateTooltipPosition}
               onMouseLeave={() => setHovered(null)}
-              // Accessibility: make pins focusable and announce the location
+              // Click handler: open the detail modal for this location
+              onClick={() => {
+                setSelected(travel);
+                setHovered(null); // Hide tooltip when modal opens
+              }}
+              // Accessibility: make pins focusable and announce the location.
+              // Enter/Space opens the modal, matching button behavior.
               role="button"
               tabIndex={0}
               aria-label={`${travel.name}, ${travel.country}`}
+              onKeyDown={(e) => {
+                if (e.key === "Enter" || e.key === " ") {
+                  e.preventDefault();
+                  setSelected(travel);
+                  setHovered(null);
+                }
+              }}
             />
           );
         })}
@@ -168,6 +186,18 @@ export default function TravelMap({ travels, mapSvgContent }: TravelMapProps) {
             {formatTravelDate(hovered.date, hovered.dateEnd)}
           </p>
         </div>
+      )}
+
+      {/*
+        Modal — rendered when a pin is clicked.
+        The modal manages its own <dialog> element; we just control
+        whether it exists in the DOM via the `selected` state.
+      */}
+      {selected && (
+        <TravelModal
+          travel={selected}
+          onClose={() => setSelected(null)}
+        />
       )}
     </div>
   );
