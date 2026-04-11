@@ -37,7 +37,6 @@ Other data remains file-based:
 
 - **`bookmarks.csv`** / **`books.csv`**: Used when Supabase is not configured (see above).
 - **`music-rotation.csv`**: Currently listening tracks
-- **`life-in-weeks.json`**: Life calendar visualization data
 
 ### Data Processing
 
@@ -60,7 +59,6 @@ The `src/lib/` directory contains utilities for content processing:
 - **`/now`**: "Now" page combining markdown content with dynamic data (current book, GitHub activity, latest bookmark, music)
 - **`/bookmarks`**: Bookmark listing with pagination
 - **`/bookshelf`**: Book archive
-- **`/life-in-weeks`**: Life calendar visualization
 
 ### Supabase Setup (optional)
 

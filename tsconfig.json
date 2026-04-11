@@ -33,7 +33,6 @@
     "**/*.ts",
     "**/*.tsx",
     ".next/types/**/*.ts",
-    "src/app/life-in-weeks",
     ".next/dev/types/**/*.ts"
   ],
   "exclude": [
