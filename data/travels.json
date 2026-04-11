@@ -1,0 +1,38 @@
+[
+  {
+    "id": "london-2024",
+    "name": "London",
+    "country": "England",
+    "lat": 51.5074,
+    "lng": -0.1278,
+    "date": "2024-03",
+    "dateEnd": "2024-04",
+    "images": [],
+    "recordSlug": null,
+    "note": "Test pin — should land on southeast England"
+  },
+  {
+    "id": "tokyo-2024",
+    "name": "Tokyo",
+    "country": "Japan",
+    "lat": 35.6762,
+    "lng": 139.6503,
+    "date": "2024-10",
+    "dateEnd": null,
+    "images": [],
+    "recordSlug": null,
+    "note": "Test pin — should land on Honshu island"
+  },
+  {
+    "id": "new-york-2023",
+    "name": "New York",
+    "country": "United States",
+    "lat": 40.7128,
+    "lng": -74.006,
+    "date": "2023-06",
+    "dateEnd": "2023-06",
+    "images": [],
+    "recordSlug": null,
+    "note": "Test pin — should land on US northeast coast"
+  }
+]
