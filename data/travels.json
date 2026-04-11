@@ -9,7 +9,8 @@
     "dateEnd": "2024-04",
     "images": [],
     "recordSlug": null,
-    "note": "Test pin — should land on southeast England"
+    "note": "Test pin — should land on southeast England",
+    "status": "visited"
   },
   {
     "id": "tokyo-2024",
@@ -21,7 +22,8 @@
     "dateEnd": null,
     "images": [],
     "recordSlug": null,
-    "note": "Test pin — should land on Honshu island"
+    "note": "Test pin — should land on Honshu island",
+    "status": "wishlist"
   },
   {
     "id": "new-york-2023",
@@ -33,6 +35,7 @@
     "dateEnd": "2023-06",
     "images": [],
     "recordSlug": null,
-    "note": "Test pin — should land on US northeast coast"
+    "note": "Test pin — should land on US northeast coast",
+    "status": "visited"
   }
 ]

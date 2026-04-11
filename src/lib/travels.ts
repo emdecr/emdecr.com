@@ -1,17 +1,15 @@
 /**
- * travels.ts — Data loader and types for the /travels page.
+ * travels.ts — Server-only data loader for the /travels page.
  *
- * Travel data can come from two sources:
- *   1. Supabase "travels" table (primary, if configured)
+ * This file contains Node.js imports (fs, path) and Supabase calls,
+ * so it can ONLY be imported from server components or other server code.
+ *
+ * Client components should import types and utilities from
+ * travel-types.ts instead, which has no server-only dependencies.
+ *
+ * Data sources (in priority order):
+ *   1. Supabase "travels" table (if env vars are set)
  *   2. /data/travels.json (fallback, always available)
- *
- * This follows the same pattern as bookmarks and books in data-source.ts:
- * try Supabase first, fall back to the local file if Supabase isn't
- * configured or if the query fails.
- *
- * Why Supabase? Eventually some pins/info may be gated behind login
- * using Supabase Row Level Security (RLS). The JSON fallback ensures
- * the page still works without Supabase configured (e.g. local dev).
  */
 
 import { createClient } from "@supabase/supabase-js";
@@ -19,22 +17,11 @@ import { readFile } from "fs/promises";
 import path from "path";
 import { unstable_cache } from "next/cache";
 
-// ---------------------------------------------------------------------
-// Types
-// ---------------------------------------------------------------------
+// Re-export types so server components can import everything from one place.
+// Client components should import directly from travel-types.ts.
+export type { Travel, TravelStatus } from "./travel-types";
 
-export type Travel = {
-  id: string; // Unique kebab-case identifier, e.g. "london-2024"
-  name: string; // Display name: city, region, or area
-  country: string; // Country or state name
-  lat: number; // Latitude in decimal degrees (north is positive)
-  lng: number; // Longitude in decimal degrees (east is positive)
-  date: string; // Start date as partial ISO: "2024-03" or "2024-03-15"
-  dateEnd?: string | null; // End date (same format), null/omitted for single dates
-  images?: string[]; // Array of image paths relative to /public
-  recordSlug?: string | null; // Slug for linking to /records/[slug], null if no article
-  note?: string | null; // Short one-line description for tooltip and card
-};
+import type { Travel, TravelStatus } from "./travel-types";
 
 // ---------------------------------------------------------------------
 // Supabase helpers (same pattern as data-source.ts)
@@ -73,6 +60,7 @@ function rowToTravel(row: Record<string, unknown>): Travel {
     images: Array.isArray(row.images) ? row.images.map(String) : [],
     recordSlug: row.record_slug ? String(row.record_slug) : null,
     note: row.note ? String(row.note) : null,
+    status: (row.status === "wishlist" ? "wishlist" : "visited") as TravelStatus,
   };
 }
 
@@ -139,56 +127,5 @@ export const getTravels = unstable_cache(
   { revalidate: REVALIDATE_SECONDS }
 );
 
-// ---------------------------------------------------------------------
-// Date formatting
-// ---------------------------------------------------------------------
-
-/**
- * Format a travel date (or date range) for display.
- *
- * Handles two formats:
- *   - "2024-03"    → "Mar 2024"
- *   - "2024-03-15" → "Mar 15, 2024"
- *
- * If dateEnd is provided and differs from date, shows a range:
- *   - "Mar 2024 – Apr 2024"
- *   - "Mar 15, 2024 – Apr 2, 2024"
- */
-export function formatTravelDate(
-  date: string,
-  dateEnd?: string | null
-): string {
-  const fmt = (d: string): string => {
-    const parts = d.split("-");
-
-    if (parts.length === 2) {
-      // Year-month only: "2024-03" → "Mar 2024"
-      const dateObj = new Date(Number(parts[0]), Number(parts[1]) - 1);
-      return dateObj.toLocaleDateString("en-US", {
-        month: "short",
-        year: "numeric",
-      });
-    }
-
-    // Full date: "2024-03-15" → "Mar 15, 2024"
-    // Note: we parse parts manually to avoid timezone issues with new Date("2024-03-15")
-    const dateObj = new Date(
-      Number(parts[0]),
-      Number(parts[1]) - 1,
-      Number(parts[2])
-    );
-    return dateObj.toLocaleDateString("en-US", {
-      month: "short",
-      day: "numeric",
-      year: "numeric",
-    });
-  };
-
-  // If there's no end date, or end date matches start date, just show the single date
-  if (!dateEnd || dateEnd === date) {
-    return fmt(date);
-  }
-
-  // Show as a range: "Mar 2024 – Apr 2024"
-  return `${fmt(date)} – ${fmt(dateEnd)}`;
-}
+// Re-export formatTravelDate so server components can import from one place.
+export { formatTravelDate } from "./travel-types";
