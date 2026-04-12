@@ -32,7 +32,7 @@ jobs:
       - name: Prepare bundle
         run: |
           cp -r .next/static .next/standalone/.next/static
-          cp -r public .next/standalone/public
+          cp -r public/ .next/standalone/public/
           cp -r data .next/standalone/data
           cp -r content .next/standalone/content
 
