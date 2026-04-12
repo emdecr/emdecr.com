@@ -17,7 +17,7 @@ export default async function Home() {
 
       <hr />
 
-      <p className="text-xl">This site is a home for current projects and ideas:</p>
+      <p className="text-xl">This site is a home for:</p>
 
       <ul className="text-xl">
         <li>
