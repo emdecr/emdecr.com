@@ -586,7 +586,9 @@ export default function TravelMap({ locations, mapSvgContent }: TravelMapProps) 
           }}
         >
           <p className="font-medium whitespace-nowrap">
-            {hovered.name}, {hovered.country}
+            {hovered.name === hovered.country
+              ? hovered.name
+              : `${hovered.name}, ${hovered.country}`}
           </p>
           <p className="text-gray-500 text-xs whitespace-nowrap">
             {hovered.trips.length === 1
