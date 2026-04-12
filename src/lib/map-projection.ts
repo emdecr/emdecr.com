@@ -30,9 +30,10 @@ const GEO_BOUNDS = {
   latBottom: -58.508473,
 } as const;
 
-// SVG dimensions from the width/height attributes
-const SVG_WIDTH = 1009.6727;
-const SVG_HEIGHT = 665.96301;
+// SVG dimensions from the width/height attributes.
+// Exported so TravelMap can use them for zoom/pan viewBox calculations.
+export const SVG_WIDTH = 1009.6727;
+export const SVG_HEIGHT = 665.96301;
 
 // ---------------------------------------------------------------------
 // Mercator projection math

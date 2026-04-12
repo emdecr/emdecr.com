@@ -78,19 +78,12 @@ export default function TravelCardList({ locations }: TravelCardListProps) {
                     </p>
                   </div>
 
-                  {/* Date + visit count */}
+                  {/* Date + trip count */}
                   <p className="text-xs text-gray-500 mt-1 ml-4">
                     {tripCount > 1
-                      ? `${tripCount} visits · Last: ${formatTravelDate(latestTrip.date, latestTrip.dateEnd)}`
+                      ? `${tripCount} trips · Last: ${formatTravelDate(latestTrip.date, latestTrip.dateEnd)}`
                       : formatTravelDate(latestTrip.date, latestTrip.dateEnd)}
                   </p>
-
-                  {/* Note from most recent trip */}
-                  {latestTrip.note && (
-                    <p className="text-xs text-gray-500 mt-1 ml-4">
-                      {latestTrip.note}
-                    </p>
-                  )}
 
                   {/* Record link hint */}
                   {location.recordSlugs.length > 0 && (
