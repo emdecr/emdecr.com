@@ -3,10 +3,11 @@
  *
  * This is a server component that:
  *   1. Loads travel data from Supabase (or JSON fallback)
- *   2. Reads the world map SVG file from disk
- *   3. Passes both to the client-side TravelMap component
+ *   2. Groups trips by location (so 5x Montreal = 1 pin)
+ *   3. Reads the world map SVG file from disk
+ *   4. Passes grouped data + SVG to client components
  *
- * The SVG is read server-side so the 1.2MB of path data stays out of
+ * The SVG is read server-side so the ~600KB of path data stays out of
  * the JavaScript bundle — it's sent as static HTML in the RSC payload.
  *
  * Layout note: The map breaks out of the site's max-w-2xl container
@@ -18,7 +19,9 @@ import type { Metadata } from "next";
 import { readFile } from "fs/promises";
 import path from "path";
 import { getTravels } from "@/lib/travels";
+import { groupTravelsByLocation, groupTravelsByCountry } from "@/lib/travel-types";
 import TravelMap from "./TravelMap";
+import TravelCardList from "./TravelCardList";
 
 export const metadata: Metadata = {
   title: "Emily Dela Cruz - Travels",
@@ -47,23 +50,36 @@ export default async function TravelsPage() {
     getMapSvgContent(),
   ]);
 
+  // Map pins: group by city name (Montreal, Toronto get separate pins)
+  const locationGroups = groupTravelsByLocation(travels);
+
+  // Card list: group by country (Canada shows once, listing Montreal + Toronto trips)
+  // This avoids awkward cards like "Singapore, Singapore" and keeps the list concise.
+  const countryGroups = groupTravelsByCountry(travels);
+
   return (
     <main>
       <h1 className="text-2xl font-semibold mb-6">Travels</h1>
 
       {/*
         Map section: breaks out of the max-w-2xl parent container.
-        The negative margins cancel out the parent's px-4 padding,
-        then we re-add padding so the map doesn't touch screen edges.
-        Hidden on mobile (< md breakpoint) — mobile users see the card list instead.
+
+        The breakout uses negative margins to widen beyond the parent,
+        paired with a max-width so it doesn't exceed the viewport.
+        - md: slight breakout (adds ~200px total width)
+        - lg+: larger breakout, capped at max-w-5xl
+
+        We avoid 100vw because it includes scrollbar width and causes
+        horizontal overflow on Windows/Linux browsers.
       */}
-      <div className="hidden md:block -mx-4 w-[calc(100%+2rem)] lg:-mx-[calc((100vw-672px)/2)] lg:w-screen">
+      <div className="hidden md:block -mx-24 lg:-mx-40">
         <div className="max-w-5xl mx-auto px-4">
-          <TravelMap travels={travels} mapSvgContent={mapSvgContent} />
+          <TravelMap locations={locationGroups} mapSvgContent={mapSvgContent} />
         </div>
       </div>
 
-      {/* Card list will be added in Phase 5 */}
+      {/* Card list — always visible, including on mobile where the map is hidden */}
+      <TravelCardList locations={countryGroups} />
     </main>
   );
 }
