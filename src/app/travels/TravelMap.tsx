@@ -517,7 +517,7 @@ export default function TravelMap({ locations, mapSvgContent }: TravelMapProps) 
               // Enter/Space opens the modal, matching button behavior.
               role="button"
               tabIndex={0}
-              aria-label={`${location.name}, ${location.country}${tripCount > 1 ? ` — ${tripCount} visits` : ""}`}
+              aria-label={`${location.name}, ${location.country}${tripCount > 1 ? ` — ${tripCount} trips` : ""}`}
               onKeyDown={(e) => {
                 if (e.key === "Enter" || e.key === " ") {
                   e.preventDefault();
@@ -592,8 +592,8 @@ export default function TravelMap({ locations, mapSvgContent }: TravelMapProps) 
             {hovered.trips.length === 1
               ? hovered.status === "wishlist"
                 ? "Wishlist"
-                : "1 visit"
-              : `${hovered.trips.length} visits`}
+                : "1 trip"
+              : `${hovered.trips.length} trips`}
           </p>
         </div>
       )}

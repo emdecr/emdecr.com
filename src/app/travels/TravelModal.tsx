@@ -108,6 +108,8 @@ export default function TravelModal({ location, onClose }: TravelModalProps) {
                 key={i}
                 src={src}
                 alt={`${location.name} photo ${i + 1}`}
+                // Lazy-load images beyond the first one (the first is visible immediately).
+                loading={i === 0 ? "eager" : "lazy"}
                 className="snap-start w-full shrink-0 object-cover aspect-[16/9] rounded-t-lg"
               />
             ))}
@@ -151,7 +153,7 @@ export default function TravelModal({ location, onClose }: TravelModalProps) {
           {location.status === "wishlist"
             ? "Wishlist"
             : hasMultipleTrips
-              ? `Visited ${tripCount} times`
+              ? `${tripCount} trips`
               : "Visited"}
         </span>
 

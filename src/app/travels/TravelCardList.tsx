@@ -60,6 +60,7 @@ export default function TravelCardList({ locations }: TravelCardListProps) {
                   <img
                     src={location.images[0]}
                     alt=""
+                    loading="lazy"
                     className="w-full aspect-[16/9] object-cover"
                   />
                 )}

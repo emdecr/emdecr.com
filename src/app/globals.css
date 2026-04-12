@@ -158,6 +158,16 @@ body {
   display: none; /* Chrome, Safari, Edge */
 }
 
+/* Travel map — respect reduced motion for zoom/pan animations.
+   The modal and zoom transitions use CSS animations/transitions,
+   so disabling them here ensures a static experience for users
+   who prefer reduced motion. */
+@media (prefers-reduced-motion: reduce) {
+  dialog {
+    animation: none !important;
+  }
+}
+
 /* External Link */
 .link--external:after {
   background: 0 0;

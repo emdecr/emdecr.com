@@ -57,6 +57,17 @@ export default async function TravelsPage() {
   // This avoids awkward cards like "Singapore, Singapore" and keeps the list concise.
   const countryGroups = groupTravelsByCountry(travels);
 
+  // Handle the edge case where there are no travel entries at all.
+  // This could happen during initial setup before any data is seeded.
+  if (travels.length === 0) {
+    return (
+      <main>
+        <h1 className="text-2xl font-semibold mb-6">Travels</h1>
+        <p className="text-gray-500">No travels yet.</p>
+      </main>
+    );
+  }
+
   return (
     <main>
       <h1 className="text-2xl font-semibold mb-6">Travels</h1>
