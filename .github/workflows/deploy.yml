@@ -32,9 +32,9 @@ jobs:
       - name: Prepare bundle
         run: |
           cp -r .next/static .next/standalone/.next/static
-          cp -r public/ .next/standalone/public/
-          cp -r data .next/standalone/data
-          cp -r content .next/standalone/content
+          mkdir -p .next/standalone/public && cp -r public/* .next/standalone/public/
+          mkdir -p .next/standalone/data && cp -r data/* .next/standalone/data/
+          mkdir -p .next/standalone/content && cp -r content/* .next/standalone/content/
 
       - name: Set up SSH
         run: |
