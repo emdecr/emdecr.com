@@ -85,7 +85,11 @@ export default async function TravelsPage() {
       */}
       <div className="hidden md:block -mx-24 lg:-mx-40">
         <div className="max-w-5xl mx-auto px-4">
-          <TravelMap locations={locationGroups} mapSvgContent={mapSvgContent} />
+          <TravelMap
+            locations={locationGroups}
+            mapSvgContent={mapSvgContent}
+            enableZoom={process.env.NEXT_PUBLIC_MAP_ZOOM === "true"}
+          />
         </div>
       </div>
 

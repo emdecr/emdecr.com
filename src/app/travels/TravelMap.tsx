@@ -70,6 +70,7 @@ const ZOOM_STEP = 1.3;
 type TravelMapProps = {
   locations: GroupedTravel[]; // One entry per unique location
   mapSvgContent: string; // Inner SVG content (the <path> elements)
+  enableZoom?: boolean; // Whether zoom/pan is enabled (controlled via NEXT_PUBLIC_MAP_ZOOM env var)
 };
 
 // Tooltip position in pixel coordinates (relative to the map wrapper div)
@@ -180,7 +181,7 @@ function clientToSvgCoords(
 // Component
 // ---------------------------------------------------------------------
 
-export default function TravelMap({ locations, mapSvgContent }: TravelMapProps) {
+export default function TravelMap({ locations, mapSvgContent, enableZoom = false }: TravelMapProps) {
   // Which location is currently hovered (null = no tooltip shown)
   const [hovered, setHovered] = useState<GroupedTravel | null>(null);
 
@@ -224,7 +225,8 @@ export default function TravelMap({ locations, mapSvgContent }: TravelMapProps) 
 
   // Are we zoomed in? Used to decide whether to show reset button
   // and to change the cursor style (grab hand when panning is available).
-  const isZoomed = camera.zoom > 1.05; // Small epsilon to avoid float issues
+  // Always false when zoom is disabled.
+  const isZoomed = enableZoom && camera.zoom > 1.05; // Small epsilon to avoid float issues
 
   /**
    * Convert a mouse event's page coordinates to positions relative to
@@ -449,13 +451,17 @@ export default function TravelMap({ locations, mapSvgContent }: TravelMapProps) 
         }`}
         role="img"
         aria-label="World map with travel location pins"
-        // Zoom: scroll wheel zooms toward the cursor
-        onWheel={handleWheel}
-        // Pan: pointer events for drag-to-pan
-        onPointerDown={handlePointerDown}
-        onPointerMove={handlePointerMove}
-        onPointerUp={handlePointerUp}
-        onPointerCancel={handlePointerUp}
+        // Zoom & pan handlers — only attached when zoom is enabled.
+        // When disabled, the SVG is static with no scroll/drag interaction.
+        {...(enableZoom
+          ? {
+              onWheel: handleWheel,
+              onPointerDown: handlePointerDown,
+              onPointerMove: handlePointerMove,
+              onPointerUp: handlePointerUp,
+              onPointerCancel: handlePointerUp,
+            }
+          : {})}
         // Prevent touch scrolling on the map when zoomed — we want
         // touch gestures to pan the map, not scroll the page.
         style={isZoomed ? { touchAction: "none" } : undefined}
@@ -532,45 +538,48 @@ export default function TravelMap({ locations, mapSvgContent }: TravelMapProps) 
 
       {/*
         Zoom controls — +, −, and reset buttons overlaid on the bottom-right.
+        Only rendered when zoom is enabled via the NEXT_PUBLIC_MAP_ZOOM env var.
         These are HTML elements (not SVG) so they stay at a fixed pixel size
         and position regardless of map zoom level.
       */}
-      <div className="absolute bottom-3 right-3 flex flex-col gap-1">
-        <button
-          onClick={() => zoomAtCenter("in")}
-          disabled={camera.zoom >= MAX_ZOOM}
-          className="w-8 h-8 flex items-center justify-center rounded bg-white border border-gray-300 shadow-sm hover:bg-gray-50 disabled:opacity-30 disabled:cursor-not-allowed text-sm font-medium transition-colors"
-          aria-label="Zoom in"
-        >
-          +
-        </button>
-        <button
-          onClick={() => zoomAtCenter("out")}
-          disabled={camera.zoom <= MIN_ZOOM}
-          className="w-8 h-8 flex items-center justify-center rounded bg-white border border-gray-300 shadow-sm hover:bg-gray-50 disabled:opacity-30 disabled:cursor-not-allowed text-sm font-medium transition-colors"
-          aria-label="Zoom out"
-        >
-          −
-        </button>
-        {/* Reset button — only shown when zoomed in */}
-        {isZoomed && (
+      {enableZoom && (
+        <div className="absolute bottom-3 right-3 flex flex-col gap-1">
           <button
-            onClick={resetZoom}
-            className="w-8 h-8 flex items-center justify-center rounded bg-white border border-gray-300 shadow-sm hover:bg-gray-50 text-xs transition-colors"
-            aria-label="Reset map zoom"
-            title="Reset zoom"
+            onClick={() => zoomAtCenter("in")}
+            disabled={camera.zoom >= MAX_ZOOM}
+            className="w-8 h-8 flex items-center justify-center rounded bg-white border border-gray-300 shadow-sm hover:bg-gray-50 disabled:opacity-30 disabled:cursor-not-allowed text-sm font-medium transition-colors"
+            aria-label="Zoom in"
           >
-            {/* Simple "fit" icon — a square with arrows pointing inward */}
-            <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" strokeWidth="1.5">
-              <rect x="1" y="1" width="12" height="12" rx="1" />
-              <path d="M5 3L3 3L3 5" />
-              <path d="M9 3L11 3L11 5" />
-              <path d="M5 11L3 11L3 9" />
-              <path d="M9 11L11 11L11 9" />
-            </svg>
+            +
           </button>
-        )}
-      </div>
+          <button
+            onClick={() => zoomAtCenter("out")}
+            disabled={camera.zoom <= MIN_ZOOM}
+            className="w-8 h-8 flex items-center justify-center rounded bg-white border border-gray-300 shadow-sm hover:bg-gray-50 disabled:opacity-30 disabled:cursor-not-allowed text-sm font-medium transition-colors"
+            aria-label="Zoom out"
+          >
+            −
+          </button>
+          {/* Reset button — only shown when zoomed in */}
+          {isZoomed && (
+            <button
+              onClick={resetZoom}
+              className="w-8 h-8 flex items-center justify-center rounded bg-white border border-gray-300 shadow-sm hover:bg-gray-50 text-xs transition-colors"
+              aria-label="Reset map zoom"
+              title="Reset zoom"
+            >
+              {/* Simple "fit" icon — a square with arrows pointing inward */}
+              <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" strokeWidth="1.5">
+                <rect x="1" y="1" width="12" height="12" rx="1" />
+                <path d="M5 3L3 3L3 5" />
+                <path d="M9 3L11 3L11 5" />
+                <path d="M5 11L3 11L3 9" />
+                <path d="M9 11L11 11L11 9" />
+              </svg>
+            </button>
+          )}
+        </div>
+      )}
 
       {/*
         Tooltip — shows location name, country, and visit count.
