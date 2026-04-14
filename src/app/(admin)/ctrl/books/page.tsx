@@ -73,7 +73,8 @@ export default async function BooksAdminPage() {
           <p className="text-sm text-gray-500">No books yet.</p>
         )}
 
-        <div className="space-y-6">
+        {/* Accordion list — each item is collapsed, click to expand and edit */}
+        <div className="space-y-2">
           {recentBooks.map((book) => (
             <BookEditForm key={book.book_id} book={book} />
           ))}

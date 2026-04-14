@@ -6,8 +6,9 @@
  *   - is_current checkbox for "currently reading" on the Now page
  *   - Optional "post" fields that link a book to a blog write-up
  *
- * The forms are intentionally verbose (not abstracted into a shared component)
- * so each one is easy to read and modify independently.
+ * The edit forms use native <details> elements for an accordion-style
+ * layout — collapsed by default, showing title + author + cover thumbnail.
+ * Click to expand and edit.
  */
 'use client';
 
@@ -16,7 +17,6 @@ import { createBook, updateBook } from './actions';
 import type { ActionResult } from './actions';
 
 // ─── Types ───────────────────────────────────────────────────────────────────
-// Matches the shape we get from the server component (BookCsvRow + is_current)
 
 export type BookForEdit = {
   book_id: string;
@@ -49,7 +49,7 @@ function StatusMessage({ result }: { result: ActionResult }) {
   if (!result) return null;
   const colorMap = {
     success: 'text-green-700',
-    warning: 'text-amber-600',  // book saved, but image upload failed
+    warning: 'text-amber-600',
     error: 'text-red-600',
   };
   return <p className={`text-sm ${colorMap[result.status]} mt-2`}>{result.message}</p>;
@@ -167,222 +167,238 @@ export function BookCreateForm() {
   );
 }
 
-// ─── Edit Form ───────────────────────────────────────────────────────────────
-// Pre-filled with the book's current values. Each recent book gets its own
-// independent form instance.
+// ─── Edit Form (accordion item) ─────────────────────────────────────────────
+// Each book is a <details> element — collapsed by default, showing a summary
+// line with the title, author, and cover thumbnail. Click to expand and edit.
 
 export function BookEditForm({ book }: { book: BookForEdit }) {
   const [result, formAction, isPending] = useActionState(updateBook, null);
 
   return (
-    <form action={formAction} className="space-y-3 border border-gray-200 rounded p-4">
-      {/* Hidden fields for the server action */}
-      <input type="hidden" name="book_id" value={book.book_id} />
-      {/* Preserve existing image URL in case no new file is uploaded */}
-      <input type="hidden" name="read_image_existing" value={book.read_image} />
-
-      {/* ID + current image preview */}
-      <div className="flex items-start justify-between">
-        <p className="text-xs text-gray-400">ID: {book.book_id}</p>
-        {book.read_image && (
+    <details className="border border-gray-200 rounded group">
+      {/* Summary line — always visible */}
+      <summary className="cursor-pointer px-4 py-3 flex items-center gap-3 hover:bg-gray-50">
+        {/* Cover thumbnail in the summary row */}
+        {book.read_image ? (
           <img
             src={book.read_image}
             alt=""
-            className="w-12 h-16 object-cover rounded border border-gray-200"
+            className="w-8 h-11 object-cover rounded border border-gray-200 shrink-0"
           />
+        ) : (
+          <div className="w-8 h-11 bg-gray-100 rounded border border-gray-200 shrink-0" />
         )}
-      </div>
+        <div className="min-w-0 flex-1">
+          <span className="font-medium text-sm block truncate">
+            {book.read_title}
+          </span>
+          <span className="text-xs text-gray-400 block truncate">
+            {book.read_authors}
+            {book.is_current && (
+              <span className="ml-2 text-green-600 font-medium">● Reading</span>
+            )}
+          </span>
+        </div>
+      </summary>
 
-      {/* ── Core book info ── */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+      {/* Edit form — revealed on expand */}
+      <form action={formAction} className="space-y-3 px-4 pb-4 pt-2 border-t border-gray-100">
+        <input type="hidden" name="book_id" value={book.book_id} />
+        <input type="hidden" name="read_image_existing" value={book.read_image} />
+
+        <p className="text-xs text-gray-400">ID: {book.book_id}</p>
+
+        {/* ── Core book info ── */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <div>
+            <label htmlFor={`edit-read-title-${book.book_id}`} className={labelClass}>Title *</label>
+            <input
+              id={`edit-read-title-${book.book_id}`}
+              name="read_title"
+              type="text"
+              required
+              defaultValue={book.read_title}
+              className={inputClass}
+            />
+          </div>
+          <div>
+            <label htmlFor={`edit-read-subtitle-${book.book_id}`} className={labelClass}>Subtitle</label>
+            <input
+              id={`edit-read-subtitle-${book.book_id}`}
+              name="read_subtitle"
+              type="text"
+              defaultValue={book.read_subtitle}
+              className={inputClass}
+            />
+          </div>
+        </div>
+
         <div>
-          <label htmlFor={`edit-read-title-${book.book_id}`} className={labelClass}>Title *</label>
+          <label htmlFor={`edit-read-authors-${book.book_id}`} className={labelClass}>Authors *</label>
           <input
-            id={`edit-read-title-${book.book_id}`}
-            name="read_title"
+            id={`edit-read-authors-${book.book_id}`}
+            name="read_authors"
             type="text"
             required
-            defaultValue={book.read_title}
+            defaultValue={book.read_authors}
             className={inputClass}
           />
         </div>
-        <div>
-          <label htmlFor={`edit-read-subtitle-${book.book_id}`} className={labelClass}>Subtitle</label>
-          <input
-            id={`edit-read-subtitle-${book.book_id}`}
-            name="read_subtitle"
-            type="text"
-            defaultValue={book.read_subtitle}
-            className={inputClass}
-          />
-        </div>
-      </div>
 
-      <div>
-        <label htmlFor={`edit-read-authors-${book.book_id}`} className={labelClass}>Authors *</label>
-        <input
-          id={`edit-read-authors-${book.book_id}`}
-          name="read_authors"
-          type="text"
-          required
-          defaultValue={book.read_authors}
-          className={inputClass}
-        />
-      </div>
-
-      <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
-        <div>
-          <label htmlFor={`edit-read-date-${book.book_id}`} className={labelClass}>Date Read</label>
-          <input
-            id={`edit-read-date-${book.book_id}`}
-            name="read_date"
-            type="date"
-            defaultValue={book.read_date}
-            className={inputClass}
-          />
-        </div>
-        <div>
-          <label htmlFor={`edit-read-year-${book.book_id}`} className={labelClass}>Year Published</label>
-          <input
-            id={`edit-read-year-${book.book_id}`}
-            name="read_year"
-            type="text"
-            defaultValue={book.read_year}
-            className={inputClass}
-          />
-        </div>
-        <div>
-          <label htmlFor={`edit-read-rating-${book.book_id}`} className={labelClass}>Rating</label>
-          <input
-            id={`edit-read-rating-${book.book_id}`}
-            name="read_rating"
-            type="text"
-            defaultValue={book.read_rating}
-            className={inputClass}
-          />
-        </div>
-      </div>
-
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-        <div>
-          <label htmlFor={`edit-read-isbn-${book.book_id}`} className={labelClass}>ISBN</label>
-          <input
-            id={`edit-read-isbn-${book.book_id}`}
-            name="read_isbn"
-            type="text"
-            defaultValue={book.read_isbn}
-            className={inputClass}
-          />
-        </div>
-        <div>
-          <label htmlFor={`edit-read-publisher-${book.book_id}`} className={labelClass}>Publisher</label>
-          <input
-            id={`edit-read-publisher-${book.book_id}`}
-            name="read_publisher"
-            type="text"
-            defaultValue={book.read_publisher}
-            className={inputClass}
-          />
-        </div>
-      </div>
-
-      <div>
-        <label htmlFor={`edit-read-link-${book.book_id}`} className={labelClass}>Link</label>
-        <input
-          id={`edit-read-link-${book.book_id}`}
-          name="read_link"
-          type="url"
-          defaultValue={book.read_link}
-          className={inputClass}
-        />
-      </div>
-
-      {/* ── Cover image replacement ── */}
-      <div>
-        <label htmlFor={`edit-read-image-${book.book_id}`} className={labelClass}>
-          Replace Cover Image
-        </label>
-        <input
-          id={`edit-read-image-${book.book_id}`}
-          name="read_image_file"
-          type="file"
-          accept="image/*"
-          className="text-sm"
-        />
-        <p className="text-xs text-gray-400 mt-1">
-          Leave empty to keep current image
-        </p>
-      </div>
-
-      {/* ── Currently reading toggle ── */}
-      <div className="flex items-center gap-2">
-        <input
-          id={`edit-is-current-${book.book_id}`}
-          name="is_current"
-          type="checkbox"
-          defaultChecked={book.is_current}
-          className="rounded"
-        />
-        <label htmlFor={`edit-is-current-${book.book_id}`} className="text-sm">
-          Currently reading
-        </label>
-      </div>
-
-      {/* ── Optional: link to a blog post ── */}
-      <details className="text-sm">
-        <summary className="cursor-pointer text-gray-500 hover:text-gray-700">
-          Link to blog post (optional)
-        </summary>
-        <div className="mt-3 space-y-3 pl-2 border-l-2 border-gray-100">
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
           <div>
-            <label htmlFor={`edit-record-id-${book.book_id}`} className={labelClass}>Record ID</label>
+            <label htmlFor={`edit-read-date-${book.book_id}`} className={labelClass}>Date Read</label>
             <input
-              id={`edit-record-id-${book.book_id}`}
-              name="record_id"
+              id={`edit-read-date-${book.book_id}`}
+              name="read_date"
+              type="date"
+              defaultValue={book.read_date}
+              className={inputClass}
+            />
+          </div>
+          <div>
+            <label htmlFor={`edit-read-year-${book.book_id}`} className={labelClass}>Year Published</label>
+            <input
+              id={`edit-read-year-${book.book_id}`}
+              name="read_year"
               type="text"
-              defaultValue={book.record_id}
+              defaultValue={book.read_year}
               className={inputClass}
             />
           </div>
           <div>
-            <label htmlFor={`edit-post-title-${book.book_id}`} className={labelClass}>Post Title</label>
+            <label htmlFor={`edit-read-rating-${book.book_id}`} className={labelClass}>Rating</label>
             <input
-              id={`edit-post-title-${book.book_id}`}
-              name="post_title"
+              id={`edit-read-rating-${book.book_id}`}
+              name="read_rating"
               type="text"
-              defaultValue={book.post_title}
-              className={inputClass}
-            />
-          </div>
-          <div>
-            <label htmlFor={`edit-post-slug-${book.book_id}`} className={labelClass}>Post Slug</label>
-            <input
-              id={`edit-post-slug-${book.book_id}`}
-              name="post_slug"
-              type="text"
-              defaultValue={book.post_slug}
-              className={inputClass}
-            />
-          </div>
-          <div>
-            <label htmlFor={`edit-post-date-${book.book_id}`} className={labelClass}>Post Date</label>
-            <input
-              id={`edit-post-date-${book.book_id}`}
-              name="post_date"
-              type="datetime-local"
-              defaultValue={book.post_date}
+              defaultValue={book.read_rating}
               className={inputClass}
             />
           </div>
         </div>
-      </details>
 
-      <div className="flex items-center gap-3 pt-2">
-        <button type="submit" disabled={isPending} className={buttonClass}>
-          {isPending ? 'Saving...' : 'Save'}
-        </button>
-        <StatusMessage result={result} />
-      </div>
-    </form>
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <div>
+            <label htmlFor={`edit-read-isbn-${book.book_id}`} className={labelClass}>ISBN</label>
+            <input
+              id={`edit-read-isbn-${book.book_id}`}
+              name="read_isbn"
+              type="text"
+              defaultValue={book.read_isbn}
+              className={inputClass}
+            />
+          </div>
+          <div>
+            <label htmlFor={`edit-read-publisher-${book.book_id}`} className={labelClass}>Publisher</label>
+            <input
+              id={`edit-read-publisher-${book.book_id}`}
+              name="read_publisher"
+              type="text"
+              defaultValue={book.read_publisher}
+              className={inputClass}
+            />
+          </div>
+        </div>
+
+        <div>
+          <label htmlFor={`edit-read-link-${book.book_id}`} className={labelClass}>Link</label>
+          <input
+            id={`edit-read-link-${book.book_id}`}
+            name="read_link"
+            type="url"
+            defaultValue={book.read_link}
+            className={inputClass}
+          />
+        </div>
+
+        {/* ── Cover image replacement ── */}
+        <div>
+          <label htmlFor={`edit-read-image-${book.book_id}`} className={labelClass}>
+            Replace Cover Image
+          </label>
+          <input
+            id={`edit-read-image-${book.book_id}`}
+            name="read_image_file"
+            type="file"
+            accept="image/*"
+            className="text-sm"
+          />
+          <p className="text-xs text-gray-400 mt-1">
+            Leave empty to keep current image
+          </p>
+        </div>
+
+        {/* ── Currently reading toggle ── */}
+        <div className="flex items-center gap-2">
+          <input
+            id={`edit-is-current-${book.book_id}`}
+            name="is_current"
+            type="checkbox"
+            defaultChecked={book.is_current}
+            className="rounded"
+          />
+          <label htmlFor={`edit-is-current-${book.book_id}`} className="text-sm">
+            Currently reading
+          </label>
+        </div>
+
+        {/* ── Optional: link to a blog post ── */}
+        <details className="text-sm">
+          <summary className="cursor-pointer text-gray-500 hover:text-gray-700">
+            Link to blog post (optional)
+          </summary>
+          <div className="mt-3 space-y-3 pl-2 border-l-2 border-gray-100">
+            <div>
+              <label htmlFor={`edit-record-id-${book.book_id}`} className={labelClass}>Record ID</label>
+              <input
+                id={`edit-record-id-${book.book_id}`}
+                name="record_id"
+                type="text"
+                defaultValue={book.record_id}
+                className={inputClass}
+              />
+            </div>
+            <div>
+              <label htmlFor={`edit-post-title-${book.book_id}`} className={labelClass}>Post Title</label>
+              <input
+                id={`edit-post-title-${book.book_id}`}
+                name="post_title"
+                type="text"
+                defaultValue={book.post_title}
+                className={inputClass}
+              />
+            </div>
+            <div>
+              <label htmlFor={`edit-post-slug-${book.book_id}`} className={labelClass}>Post Slug</label>
+              <input
+                id={`edit-post-slug-${book.book_id}`}
+                name="post_slug"
+                type="text"
+                defaultValue={book.post_slug}
+                className={inputClass}
+              />
+            </div>
+            <div>
+              <label htmlFor={`edit-post-date-${book.book_id}`} className={labelClass}>Post Date</label>
+              <input
+                id={`edit-post-date-${book.book_id}`}
+                name="post_date"
+                type="datetime-local"
+                defaultValue={book.post_date}
+                className={inputClass}
+              />
+            </div>
+          </div>
+        </details>
+
+        <div className="flex items-center gap-3 pt-2">
+          <button type="submit" disabled={isPending} className={buttonClass}>
+            {isPending ? 'Saving...' : 'Save'}
+          </button>
+          <StatusMessage result={result} />
+        </div>
+      </form>
+    </details>
   );
 }

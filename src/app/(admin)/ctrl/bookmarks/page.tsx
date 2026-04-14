@@ -65,7 +65,8 @@ export default async function BookmarksAdminPage() {
           <p className="text-sm text-gray-500">No bookmarks yet.</p>
         )}
 
-        <div className="space-y-6">
+        {/* Accordion list — each item is collapsed, click to expand and edit */}
+        <div className="space-y-2">
           {recentBookmarks.map((bookmark) => (
             <BookmarkEditForm key={bookmark.bookmark_id} bookmark={bookmark} />
           ))}
