@@ -1,5 +1,8 @@
 /**
- * middleware.ts — Protects the /ctrl admin routes.
+ * proxy.ts — Protects the /ctrl admin routes.
+ *
+ * This is the Next.js 16 "proxy" convention (replaces the deprecated
+ * "middleware" convention). Same API, just a different file/function name.
  *
  * How it works:
  * 1. Next.js runs this on every request matching the `config.matcher` pattern.
@@ -14,7 +17,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { createMiddlewareSupabaseClient } from '@/lib/supabase-server';
 
-export async function middleware(request: NextRequest) {
+export async function proxy(request: NextRequest) {
   // Start with a plain "next" response — we'll modify its cookies if needed
   const response = NextResponse.next({ request });
 
@@ -46,7 +49,7 @@ export async function middleware(request: NextRequest) {
   return response;
 }
 
-// Only run this middleware on /ctrl and its sub-routes.
+// Only run this proxy on /ctrl and its sub-routes.
 // Everything else on the site is public and should not be affected.
 export const config = {
   matcher: ['/ctrl/:path*'],

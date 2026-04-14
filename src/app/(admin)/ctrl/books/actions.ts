@@ -45,7 +45,7 @@ async function uploadImage(file: File): Promise<{ url: string } | { error: strin
   // We can construct it from the environment or use a relative-ish approach.
   // The simplest reliable way: use the NEXTAUTH_URL or build from headers.
   // For a self-hosted app, we'll use an env var with a sensible default.
-  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3001';
+  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000';
 
   const response = await fetch(`${baseUrl}/api/upload-image`, {
     method: 'POST',

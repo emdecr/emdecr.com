@@ -2,7 +2,7 @@ import fs from 'fs';
 import path from 'path';
 import { ComponentType } from 'react';
 
-const bespokeDirectory = path.join(process.cwd(), 'src/app/records/bespoke');
+const bespokeDirectory = path.join(process.cwd(), 'src/app/(site)/records/bespoke');
 
 export interface BespokeRecordMeta {
   slug: string;
@@ -100,6 +100,6 @@ export async function getBespokeComponent(
   const filePath = path.join(bespokeDirectory, `${slug}.tsx`);
   if (!fs.existsSync(filePath)) return undefined;
 
-  const mod = await import(`@/app/records/bespoke/${slug}`);
+  const mod = await import(`@/app/(site)/records/bespoke/${slug}`);
   return mod.default;
 }
