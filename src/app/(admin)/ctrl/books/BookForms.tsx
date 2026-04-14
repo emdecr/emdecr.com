@@ -47,8 +47,12 @@ const buttonClass =
 
 function StatusMessage({ result }: { result: ActionResult }) {
   if (!result) return null;
-  const color = result.status === 'success' ? 'text-green-700' : 'text-red-600';
-  return <p className={`text-sm ${color} mt-2`}>{result.message}</p>;
+  const colorMap = {
+    success: 'text-green-700',
+    warning: 'text-amber-600',  // book saved, but image upload failed
+    error: 'text-red-600',
+  };
+  return <p className={`text-sm ${colorMap[result.status]} mt-2`}>{result.message}</p>;
 }
 
 // ─── Create Form ─────────────────────────────────────────────────────────────

@@ -20,7 +20,7 @@ import { createServerSupabaseClient } from '@/lib/supabase-server';
 // ─── Types ───────────────────────────────────────────────────────────────────
 
 export type ActionResult = {
-  status: 'success' | 'error';
+  status: 'success' | 'error' | 'warning';
   message: string;
 } | null;
 
@@ -97,15 +97,19 @@ export async function createBook(
   // --- Handle image upload ---
   // The file input sends a File object. If it's empty (no file selected),
   // it's still a File but with size 0.
+  // If the upload fails, we still save the book — just without the image.
+  // You can always edit the book later and re-upload.
   let readImage = '';
+  let imageWarning = '';
   const imageFile = formData.get('read_image_file') as File | null;
 
   if (imageFile && imageFile.size > 0) {
     const uploadResult = await uploadImage(imageFile);
     if ('error' in uploadResult) {
-      return { status: 'error', message: `Image upload failed: ${uploadResult.error}` };
+      imageWarning = ` (image upload failed: ${uploadResult.error})`;
+    } else {
+      readImage = uploadResult.url;
     }
-    readImage = uploadResult.url;
   }
 
   // --- Generate the next book_id ---
@@ -170,7 +174,9 @@ export async function createBook(
   revalidatePath('/bookshelf');
   revalidatePath('/now');
 
-  return { status: 'success', message: `Book "${readTitle}" added (ID: ${nextId}).` };
+  // If the image upload failed, we still saved — let the user know both things
+  const status = imageWarning ? 'warning' as const : 'success' as const;
+  return { status, message: `Book "${readTitle}" added (ID: ${nextId}).${imageWarning}` };
 }
 
 // ─── Update Book ─────────────────────────────────────────────────────────────
@@ -210,15 +216,18 @@ export async function updateBook(
   // --- Handle image upload (optional on edit) ---
   // If a new file is uploaded, compress and replace. Otherwise, keep the
   // existing image URL (passed via a hidden field).
+  // If the upload fails, we still save — just keep the existing image.
   let readImage = (formData.get('read_image_existing') as string) || '';
+  let imageWarning = '';
   const imageFile = formData.get('read_image_file') as File | null;
 
   if (imageFile && imageFile.size > 0) {
     const uploadResult = await uploadImage(imageFile);
     if ('error' in uploadResult) {
-      return { status: 'error', message: `Image upload failed: ${uploadResult.error}` };
+      imageWarning = ` (image upload failed: ${uploadResult.error} — kept existing image)`;
+    } else {
+      readImage = uploadResult.url;
     }
-    readImage = uploadResult.url;
   }
 
   // --- Handle is_current toggle ---
@@ -265,5 +274,6 @@ export async function updateBook(
   revalidatePath('/bookshelf');
   revalidatePath('/now');
 
-  return { status: 'success', message: `Book "${readTitle}" updated.` };
+  const status = imageWarning ? 'warning' as const : 'success' as const;
+  return { status, message: `Book "${readTitle}" updated.${imageWarning}` };
 }
