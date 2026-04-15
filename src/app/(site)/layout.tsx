@@ -41,7 +41,7 @@ export default function RootLayout({
           </div>
           <footer className="prose pt-10 pb-10">
             <p className="text-sm"><a href="https://github.com/emdecr/" rel="noopener noreferrer" className="underline link--external">GitHub</a>. <a href="https://www.linkedin.com/in/emilydelacruz/" rel="noopener noreferrer" className="underline link--external">LinkedIn</a></p>
-            <p className="text-sm">&copy; {currentYear} Emily Dela Cruz. Fonts by <a href="https://www.collletttivo.it/typefaces" rel="noopener noreferrer" className="underline link--external">Collletttivo</a>.</p>
+            <p className="text-sm">&copy; {currentYear} Emily Dela Cruz. Fonts by <a href="https://www.collletttivo.it/typefaces" rel="noopener noreferrer" className="underline link--external">Collletttivo</a>. Analytics by <a href="https://withcabin.com" rel="noopener noreferrer" className="underline link--external">Cabin</a>.</p>
           </footer>
         </div>
       </body>

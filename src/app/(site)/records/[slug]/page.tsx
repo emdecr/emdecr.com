@@ -3,24 +3,26 @@ import { notFound } from 'next/navigation';
 import {
   getAllRecords,
   getRecordBySlug,
-  getRecordByRecordId,
   convertMarkdown,
   Record as RecordType,
 } from '@/lib/records';
-import { getBookBySlug, getCsvData, type BookCsvRow } from '@/lib/book-csv';
+import { type BookCsvRow } from '@/lib/book-csv';
 import {
   getBespokeRecord,
   getBespokeComponent,
   getAllBespokeRecords,
 } from '@/lib/bespoke-records';
 
+/**
+ * Resolve a page title for metadata generation.
+ * Books without notes (no record_id / no linked markdown) no longer have
+ * their own pages, so we only check bespoke and markdown records here.
+ */
 async function getTitleForSlug(slug: string): Promise<string | undefined> {
   const bespoke = getBespokeRecord(slug);
   if (bespoke) return bespoke.title;
   const record = await getRecordBySlug(slug);
   if (record) return record.metadata.title;
-  const row = await getBookBySlug(slug);
-  if (row) return row.read_title || row.post_title;
   return undefined;
 }
 
@@ -39,14 +41,19 @@ type Props = {
   }>;
 };
 
+/**
+ * Generate static params for all record pages at build time.
+ *
+ * Books no longer generate their own pages by post_slug — only books
+ * with notes (a linked markdown record via record_id) get pages, and
+ * those are already included through the markdown records list.
+ */
 export async function generateStaticParams() {
   const records = getAllRecords();
-  const books = await getCsvData();
   const bespoke = getAllBespokeRecords();
-  const bookSlugs = books.map((row) => row.post_slug);
   const recordSlugs = records.map((r) => r.slug);
   const bespokeSlugs = bespoke.map((r) => r.slug);
-  const slugs = [...new Set([...recordSlugs, ...bookSlugs, ...bespokeSlugs])];
+  const slugs = [...new Set([...recordSlugs, ...bespokeSlugs])];
   return slugs.map((slug) => ({ slug }));
 }
 
@@ -110,37 +117,36 @@ function BookMetadata({ row }: { row: BookCsvRow }) {
   );
 }
 
+/**
+ * Renders a single record page (book notes, film review, article, etc.).
+ *
+ * Resolution order:
+ *   1. Bespoke records — custom React components in src/lib/bespoke-records
+ *   2. Markdown records — .md files in content/records/
+ *
+ * For book-type markdown records, getRecordBySlug() automatically enriches
+ * the record with CSV metadata (cover, author, rating, etc.) by matching
+ * the frontmatter record_id to a book row. See src/lib/records.ts for
+ * that enrichment logic.
+ *
+ * Books without a linked markdown record (no record_id) do not have pages
+ * — they appear only as static cards on the /bookshelf grid.
+ */
 export default async function RecordPage({ params }: Props) {
   const { slug } = await params;
 
-  // Check for bespoke record first
+  // 1. Check for bespoke (custom component) records first
   const bespokeMeta = getBespokeRecord(slug);
   if (bespokeMeta) {
     const Component = await getBespokeComponent(slug);
     if (Component) return <Component />;
   }
 
-  let record: RecordType | undefined = await getRecordBySlug(slug);
-  let csvRow: BookCsvRow | undefined = await getBookBySlug(slug);
-
-  if (!record) {
-    if (csvRow?.record_id) {
-      record = getRecordByRecordId(csvRow.record_id);
-      if (record) {
-        record.csvData = csvRow;
-      }
-    }
-    if (!record && csvRow) {
-      const title = csvRow.read_title || csvRow.post_title;
-      return (
-        <article className="prose">
-          <h1>{title}</h1>
-          <BookMetadata row={csvRow} />
-        </article>
-      );
-    }
-    if (!record) notFound();
-  }
+  // 2. Look up the markdown record by slug.
+  //    For book-type records, getRecordBySlug() automatically
+  //    enriches with CSV data via record_id (see src/lib/records.ts).
+  const record = await getRecordBySlug(slug);
+  if (!record) notFound();
 
   const { contentHtml } = await convertMarkdown(record.content);
   const { type, title } = record.metadata;
@@ -149,6 +155,8 @@ export default async function RecordPage({ params }: Props) {
   return (
     <article className="prose">
       <h1>{title}</h1>
+      {/* Book-type records get a metadata sidebar (cover, author, rating, etc.)
+          pulled from the CSV/Supabase book row via record_id linking. */}
       {type === 'book' && csvData && (
         <BookMetadata row={csvData} />
       )}

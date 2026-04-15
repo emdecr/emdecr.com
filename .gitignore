@@ -47,3 +47,4 @@ next-env.d.ts
 # music-rotation.csv
 plans/
 .claude/
+/images/books/

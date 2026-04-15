@@ -96,9 +96,9 @@ export async function createBook(
 
   // Optional fields that link to a blog post about the book
   const recordId = (formData.get('record_id') as string)?.trim() || '';
-  const postTitle = (formData.get('post_title') as string)?.trim() || '';
-  const postSlug = (formData.get('post_slug') as string)?.trim() || '';
-  const postDate = (formData.get('post_date') as string)?.trim() || '';
+  const postTitle = (formData.get('post_title') as string)?.trim() || readTitle;
+  const postSlug = (formData.get('post_slug') as string)?.trim() || readTitle.toLowerCase().replace(/ /g, '-').replace(/[^\w-]+/g, '');
+  const postDate = (formData.get('post_date') as string)?.trim() || new Date().toISOString();
 
   if (!readTitle || !readAuthors) {
     return { status: 'error', message: 'Title and authors are required.' };
