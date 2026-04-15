@@ -24,6 +24,16 @@ export type ActionResult = {
   message: string;
 } | null;
 
+// ─── Helper: parse a string to a number, or null if empty/invalid ────────────
+// The live database has book_id, read_year, and read_isbn as bigint columns
+// (the CSV import inferred numeric types). We need to send actual numbers,
+// not strings, for these fields. Empty strings become null.
+function toBigintOrNull(value: string): number | null {
+  if (!value) return null;
+  const n = parseInt(value, 10);
+  return isNaN(n) ? null : n;
+}
+
 // ─── Helper: upload image via the API route ──────────────────────────────────
 // Server actions can't easily process multipart file uploads themselves,
 // so we delegate to the /api/upload-image route handler.
@@ -113,7 +123,7 @@ export async function createBook(
   }
 
   // --- Generate the next book_id ---
-  // Same pattern as bookmarks: query max, parse as int, increment, stringify.
+  // book_id is bigint in the live database, so we work with numbers.
   const { data: maxRow, error: maxError } = await supabase
     .from('books')
     .select('book_id')
@@ -125,8 +135,8 @@ export async function createBook(
     return { status: 'error', message: `Failed to generate ID: ${maxError.message}` };
   }
 
-  const currentMax = maxRow ? parseInt(maxRow.book_id, 10) : 0;
-  const nextId = String(currentMax + 1);
+  const currentMax = maxRow ? Number(maxRow.book_id) : 0;
+  const nextId = currentMax + 1;
 
   // --- Handle is_current toggle ---
   // The partial unique index on books(is_current) WHERE is_current = true
@@ -144,6 +154,8 @@ export async function createBook(
   }
 
   // --- Insert the row ---
+  // book_id, read_year, and read_isbn are bigint in the live database,
+  // so we convert them to numbers (or null) before inserting.
   const { error: insertError } = await supabase
     .from('books')
     .insert({
@@ -156,10 +168,10 @@ export async function createBook(
       read_subtitle: readSubtitle,
       read_authors: readAuthors,
       read_date: readDate,
-      read_year: readYear,
+      read_year: toBigintOrNull(readYear),
       read_rating: readRating,
       read_link: readLink,
-      read_isbn: readIsbn,
+      read_isbn: toBigintOrNull(readIsbn),
       read_publisher: readPublisher,
       read_image: readImage,
       is_current: isCurrent,
@@ -178,6 +190,7 @@ export async function createBook(
   const status = imageWarning ? 'warning' as const : 'success' as const;
   return { status, message: `Book "${readTitle}" added (ID: ${nextId}).${imageWarning}` };
 }
+
 
 // ─── Update Book ─────────────────────────────────────────────────────────────
 
@@ -246,6 +259,7 @@ export async function updateBook(
   }
 
   // --- Update the row ---
+  // Same bigint conversion as createBook for read_year and read_isbn.
   const { error } = await supabase
     .from('books')
     .update({
@@ -257,10 +271,10 @@ export async function updateBook(
       read_subtitle: readSubtitle,
       read_authors: readAuthors,
       read_date: readDate,
-      read_year: readYear,
+      read_year: toBigintOrNull(readYear),
       read_rating: readRating,
       read_link: readLink,
-      read_isbn: readIsbn,
+      read_isbn: toBigintOrNull(readIsbn),
       read_publisher: readPublisher,
       read_image: readImage,
       is_current: isCurrent,
