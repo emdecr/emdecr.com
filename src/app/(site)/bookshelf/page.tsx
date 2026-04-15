@@ -38,6 +38,15 @@ export default async function BookshelfPage() {
           const hasNotes = Boolean(record);
           const title = row.read_title || row.post_title;
 
+          // Determine the link target:
+          //   1. If the book has notes (a linked markdown record), link to the notes page.
+          //   2. Otherwise, if the book has a read_link (e.g. an external URL like
+          //      Goodreads or a publisher site), use that as a fallback.
+          //   3. If neither exists, the card is static / non-clickable.
+          const linkHref = hasNotes
+            ? `/records/${record!.slug}`
+            : row.read_link || undefined;
+
           // Card interior — shared between linked and static versions
           // to avoid duplicating the JSX for both cases.
           const cardContent = (
@@ -77,18 +86,29 @@ export default async function BookshelfPage() {
 
           return (
             <li key={row.book_id}>
-              {hasNotes ? (
-                // Link to the markdown record's slug — this is the notes page
-                // for this book, not the book's own post_slug.
-                <Link
-                  href={`/records/${record!.slug}`}
-                  prefetch={false}
-                  className="block no-underline group"
-                >
-                  {cardContent}
-                </Link>
+              {linkHref ? (
+                // Linked card — either internal notes page or external read_link.
+                // For external links (read_link), open in a new tab.
+                hasNotes ? (
+                  <Link
+                    href={linkHref}
+                    prefetch={false}
+                    className="block no-underline group"
+                  >
+                    {cardContent}
+                  </Link>
+                ) : (
+                  <a
+                    href={linkHref}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="block no-underline group"
+                  >
+                    {cardContent}
+                  </a>
+                )
               ) : (
-                // No notes — render as a static, non-clickable card
+                // No notes and no external link — static, non-clickable card
                 <div className="block">
                   {cardContent}
                 </div>
