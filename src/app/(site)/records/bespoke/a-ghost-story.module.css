@@ -1,0 +1,54 @@
+/*
+  CSS Module for the "A Ghost Story" bespoke post.
+
+  CSS Modules work by scoping class names to this file only. When Next.js
+  compiles this, every class name gets a unique hash appended
+  (e.g. `.scratchMark` becomes `.a-ghost-story_scratchMark__abc12`),
+  so it can never accidentally clash with a class name anywhere else in the app.
+
+  You import this file into the component as an object, then use
+  `styles.scratchMark` instead of the string "scratch-mark". The compiler
+  handles the name mangling for you.
+*/
+
+/*
+  @keyframes defines a named animation that CSS can reference.
+  This one pulses opacity slightly — simulating the look of old film
+  grain on the scratch mark drawn into the doorframe SVG.
+
+  The name `scratchMark` is local to this module, just like the class below.
+*/
+@keyframes scratchMark {
+  /* Start and end at slightly reduced opacity — feels organic, not jarring */
+  0%,
+  100% {
+    opacity: 0.9;
+  }
+
+  /* Peak opacity in the middle of the cycle */
+  45%,
+  55% {
+    opacity: 1;
+  }
+}
+
+/*
+  `.scratchMark` is applied to the SVG path element that looks like
+  a scratch in the doorframe. The animation loops forever with a slow,
+  easing rhythm to feel subtle rather than distracting.
+*/
+.scratchMark {
+  animation: scratchMark 4s ease-in-out infinite;
+}
+
+/*
+  Respect the user's OS-level "reduce motion" preference.
+  Some people (e.g. those with vestibular disorders) find animations
+  uncomfortable or disorienting. When this media query matches,
+  we disable the animation entirely.
+*/
+@media (prefers-reduced-motion: reduce) {
+  .scratchMark {
+    animation: none;
+  }
+}
